@@ -1,4 +1,7 @@
 # WarOfAusterlitz
+[![GitHub license](https://img.shields.io/github/license/philippeBron/WarOfAusterlitz)](https://github.com/philippeBron/WarOfAusterlitz/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/philippeBron/WarOfAusterlitz)](https://github.com/philippeBron/WarOfAusterlitz/issues)
+
 Gestionnaire de combat du jeu de plateau WOA.
 
 ## Contexte
