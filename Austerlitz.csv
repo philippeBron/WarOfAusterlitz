@@ -1,0 +1,68 @@
+Armee,Troupe,type,de,du,au,tu,db
+fr,régiment(s) d'infanterie affaiblie,troupe,1,0,0,6,0
+fr,régiment(s) d'infanterie lègère,troupe,1,1,1,6,0
+fr,régiment(s) d'infanterie de Ligne,troupe,1,2,2,6,0
+fr,régiment(s) de Grenadiers,troupe,1,3,3,6,0
+fr,Brigade légère avec Legrand,troupe,2,3,3,6,0
+fr,Brigade de Ligne avec Général,troupe,2,5,5,"6,5",0
+fr,Brigade de Grenadiers avec Duroc,troupe,2,5,5,"6,5",0
+fr,Vieille Garde avec Bessière,troupe,2,7,7,"6,5",0
+fr,division(s) de cavalerie affaiblie,troupe,2,0,0,12,0
+fr,division(s) de hussards,troupe,2,"0,5",2,12,0
+fr,division(s) de chasseurs,troupe,2,"0,5",2,12,0
+fr,division(s) de dragons,troupe,2,1,4,12,0
+fr,division(s) de cuirassiers,troupe,2,1,4,12,0
+fr,Div. de dragons de Walter,troupe,2,2,5,"12,5",0
+fr,Grenadiers à cheval,troupe,2,2,5,12,0
+fr,Cuirassiers avec MURAT,troupe,"2,5","2,5",5,"11,5",0
+fr,batterie d'artillerie légère,troupe,"2,5","2,5","2,5",1,0
+fr,batterie d'artillerie Lourde,troupe,5,5,5,2,0
+fr,Quartier Général,troupe,0,1,1,11,0
+fr,1ere Batterie légère,artillerie,0,0,0,0,"2,5"
+fr,2eme Batterie légère,artillerie,0,0,0,0,"2,5"
+fr,Batterie légère réduite,artillerie,0,0,0,0,"1,3"
+fr,1ere Batterie Lourde,artillerie,0,0,0,0,5
+fr,2eme Batterie Lourde,artillerie,0,0,0,0,5
+fr,Batterie Lourde réduite,artillerie,0,0,0,0,"2,5"
+fr,NAPOLEON 1er,generaux,0,0,0,0,0
+fr,BERNADOTE,generaux,0,0,0,0,0
+fr,DAVOUT,generaux,0,0,0,0,0
+fr,SOULT,generaux,0,0,0,0,0
+fr,LANNES,generaux,0,0,0,0,0
+fr,MURAT,generaux,0,0,0,0,0
+au-ru,schwächregiment (rég. affaibli),troupe,1,0,0,6,0
+au-ru,landwerregiment(en) (milice),troupe,1,"0,5","0,5",6,0
+au-ru,iéguerski (regiment de chasseurs),troupe,1,1,1,6,0
+au-ru,piéchoti (rég. de mousquetaires),troupe,1,"1,5",2,6,0
+au-ru,grenadierregiment(en),troupe,1,2,"1,5",6,0
+au-ru,piérota Proviti (reg. de la garde),troupe,1,"2,5","2,5",6,0
+au-ru,Jägerbrigade mit gl. Kienmayer,troupe,2,3,3,"6,5",0
+au-ru,"Piéchoti y Vojd (Mousq. , Général )",troupe,2,4,5,"6,5",0
+au-ru,Grenadierbrigade mit gl. Kollowrath,troupe,2,5,4,"6,5",0
+au-ru,Piérota Proviti (Garde) y Constantin,troupe,2,6,6,"6,5",0
+au-ru,schwätchekavallerie (cav.affaiblie),troupe,2,0,0,12,0
+au-ru,"Hussardivision(en), Kosack",troupe,2,"0,5",2,12,0
+au-ru,Dragouski (division de dragons),troupe,2,1,4,12,0
+au-ru,Arotnik Proviti (Ulhan de la Garde),troupe,2,"1,5",3,12,0
+au-ru,Hussarendivision mit general,troupe,2,"1,5",3,"12,5",0
+au-ru,Kosack Proviti y vojd Kologrivof,troupe,2,"2,5",4,"12,5",0
+au-ru,Dragouski Proviti (Chevalier-Garde),troupe,2,2,5,12,0
+au-ru,Kurassieren mit LIECHENSTEIN,troupe,"2,5","2,5","4,5","11,5",0
+au-ru,leichartillerieshlägerei (art.légère),troupe,"2,5","2,5","2,5",1,0
+au-ru,Pouchka tiazholy (artillerie lourde),troupe,4,4,4,2,0
+au-ru,Pouchka Pavlovskaia (art. de Pavlov),troupe,6,6,6,3,0
+au-ru,Haupquartier ( QG ),troupe,0,1,1,11,0
+au-ru,leichartillerie A,artillerie,0,0,0,0,"2,5"
+au-ru,leichartillerie B,artillerie,0,0,0,0,"2,5"
+au-ru,1/2 leichartartillerie,artillerie,0,0,0,0,"1,3"
+au-ru,Pouchka tiazholy A,artillerie,0,0,0,0,4
+au-ru,Pouchka tiazholy B,artillerie,0,0,0,0,3
+au-ru,1/2 Pouchka tiazholy,artillerie,0,0,0,0,2
+au-ru,Pouchka Pavloskaia,artillerie,0,0,0,0,6
+au-ru,1/2 Pouchka Pavloskaia,artillerie,0,0,0,0,3
+au-ru,ALEXANDRE Ier,generaux,0,0,0,0,0
+au-ru,BUXHOVEN,generaux,0,0,0,0,0
+au-ru,KOUTOUZOF,generaux,0,0,0,0,0
+au-ru,BAGRATION,generaux,0,0,0,0,0
+au-ru,LIECHTEINSTEIN,generaux,0,0,0,0,0
+au-ru,FRANCOIS II,generaux,0,0,0,0,0
