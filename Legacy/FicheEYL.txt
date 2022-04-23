@@ -1,0 +1,372 @@
+
+0
+0
+0
+0
+0
+iéguerski  (regiment de chasseurs) 
+10
+5
+5
+60
+80
+piéchoti  (rég. de mousquetaires) 
+10
+15
+15
+60
+290
+prußichregiment(en) 
+10
+10
+20
+60
+65
+Iéguerski y Vojd  (chas. + Général )
+20
+20
+20
+65
+30
+Jägerbrigade mit General
+20
+20
+20
+65
+10
+Piéchoti y Vojd  (Mous. + Général ) 
+20
+40
+40
+65
+60
+Prußichtbrigade mit General
+20
+40
+50
+65
+10
+
+0
+0
+0
+0
+0
+kosack(s),
+20
+20
+0
+120
+30
+hussarendivision, lanciers,
+20
+25
+5
+120
+50
+dragouski  (dragons russes),
+20
+35
+10
+120
+50
+dragonendivision,
+20
+35
+10
+120
+20
+
+0
+0
+0
+0
+0
+Kosack y vojd Platov,
+20
+30
+10
+125
+10
+Hussaren mit General,
+20
+35
+15
+125
+30
+Dragouski   y vojd Palhen,
+20
+45
+20
+125
+10
+Dragouski   y vojd Galitzine,
+20
+45
+20
+125
+10
+Dragonen mit General,
+20
+45
+20
+125
+10
+
+0
+0
+0
+0
+0
+leichartillerieshlägerei (art.légère)
+25
+30
+30
+10
+80
+Pouchka tiazholy (artillerie lourde)
+40
+40
+40
+20
+45
+Pouchka Doctorovskaia (++)
+60
+60
+60
+30
+20
+
+0
+0
+0
+0
+0
+Haupquartier ( QG )........... 
+0
+10
+10
+110
+60
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+régiment(s) d'infanterie lègère 
+10
+10
+10
+60
+110
+régiment(s) d'infanterie de Ligne 
+10
+20
+20
+60
+240
+régiment Italien 
+10
+20
+20
+60
+10
+régiment(s) de la Garde 
+10
+25
+25
+60
+10
+Brigade légère avec Général
+20
+30
+30
+65
+20
+Brigade de Ligne avec Général
+20
+50
+50
+65
+80
+Vieille Garde avec Bessière
+20
+70
+70
+65
+10
+
+0
+0
+0
+0
+0
+division(s) de cavalerie légère
+20
+30
+5
+120
+25
+division(s) de cavalerie lourde
+20
+40
+10
+120
+50
+Grenadiers de la garde à cheval,
+20
+50
+20
+120
+10
+
+0
+0
+0
+0
+0
+Cavalerie légère avec Général
+20
+30
+15
+125
+30
+Dragons avec Grouchy,
+20
+50
+20
+125
+10
+Dragons avec Milhaud,
+20
+50
+20
+125
+10
+Cuirassiers avec Hautpoul,
+20
+50
+20
+125
+10
+Chasseurs de la garde de Walther,
+20
+50
+20
+0
+10
+Cuirassiers avec MURAT,
+20
+60
+30
+115
+0
+
+0
+0
+0
+0
+0
+batterie d'artillerie légère.
+30
+30
+30
+10
+40
+batterie d'artillerie Lourde.
+45
+45
+45
+20
+30
+
+0
+0
+0
+0
+0
+Quartier Général 
+0
+10
+10
+110
+60
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0

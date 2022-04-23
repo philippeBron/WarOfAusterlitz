@@ -1,0 +1,372 @@
+
+0
+0
+0
+0
+0
+landwerregiment(en)  (milice) 
+10
+5
+5
+60
+20
+iéguerski (regiment de chasseurs) 
+10
+10
+10
+60
+50
+piéchoti (rég. de mousquetaires) 
+10
+15
+20
+60
+150
+grenadierregiment(en) 
+10
+20
+15
+60
+10
+piérota proviti  (reg. de la Garde) 
+10
+25
+30
+60
+10
+
+0
+0
+0
+0
+0
+Jägerbrigade mit gl. Kienmayer
+20
+30
+30
+65
+10
+Piéchoti y Vojd (Mousq. + Général )  
+20
+40
+50
+65
+50
+Grenadierbrigade mit gl. Kollowrath
+20
+50
+40
+65
+10
+Piérota Proviti (Garde) y Constantin
+20
+60
+70
+65
+10
+
+0
+0
+0
+0
+0
+Kosack(s),
+20
+35
+5
+120
+10
+Hussardivision(en),Ulhan
+20
+40
+5
+120
+20
+Dragouski (division de dragons)
+20
+45
+15
+120
+20
+Arotnik Proviti (Ulhan de la Garde),
+20
+50
+15
+120
+10
+Dragouski Proviti (Chevalier-Garde),
+20
+55
+25
+120
+10
+
+0
+0
+0
+0
+0
+Hussarendivision mit General
+20
+50
+15
+125
+20
+Kosack Proviti y vojd Kologrivof,
+20
+60
+20
+125
+10
+Kurassieren mit Hoenloe,
+20
+60
+20
+125
+10
+Kurassieren mit LIECHENSTEIN,
+25
+55
+25
+115
+10
+
+0
+0
+0
+0
+0
+leichartillerieshlägerei  (art.légère)
+25
+25
+25
+10
+40
+Pouchka tiazholy (artillerie lourde)
+40
+40
+40
+20
+40
+Pouchka Pavlovskaia (art. de Pavlov)
+60
+60
+60
+30
+10
+Haupquartier ( QG ) 
+0
+10
+10
+110
+60
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+régiment(s) d'infanterie lègère 
+10
+10
+10
+60
+50
+régiment(s) d'infanterie de ligne 
+10
+20
+20
+60
+80
+régiment(s) de grenadiers 
+10
+25
+25
+60
+20
+régiment(s) de la Vieille-Garde 
+10
+30
+30
+60
+10
+
+0
+0
+0
+0
+0
+Brigade légère du gl.  Legrand
+20
+30
+30
+65
+10
+Brigade de Ligne avec Général
+20
+50
+50
+65
+70
+Brigade de grenadiers  de  Duroc
+20
+60
+60
+65
+10
+Vieille Garde avec le gl. Bessière
+20
+70
+70
+65
+10
+
+0
+0
+0
+0
+0
+division(s) de hussards
+20
+40
+5
+120
+20
+division(s) de chasseurs
+20
+35
+10
+120
+15
+division(s) de dragons
+20
+45
+15
+120
+15
+division(s) de cuirassiers .
+20
+50
+10
+120
+20
+Grenadiers à cheval,
+20
+60
+20
+120
+10
+
+0
+0
+0
+0
+0
+Dragons avec un Général,
+20
+55
+25
+125
+20
+Cuirassiers avec Nansouty,
+20
+60
+20
+125
+10
+Cuirassiers avec  MURAT,
+25
+60
+25
+115
+10
+
+0
+0
+0
+0
+0
+batterie d'artillerie légère
+25
+25
+25
+10
+40
+batterie d'artillerie Lourde
+50
+50
+50
+20
+20
+Quartier Général 
+0
+10
+10
+110
+60
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0

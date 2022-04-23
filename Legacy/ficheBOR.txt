@@ -1,0 +1,372 @@
+
+0
+0
+0
+0
+0
+opolchénié  ( milice ) 
+10
+0
+0
+60
+80
+iéguerski (régiment de chasseurs) 
+10
+10
+10
+60
+130
+piéchoti (rég. de mousquetaires) 
+10
+20
+20
+60
+210
+grénadié (reg. de grenadiers) 
+10
+20
+25
+60
+90
+proviti iégerski (chas. de la garde) 
+10
+20
+20
+60
+20
+proviti  piéchoti  (mous. de la garde) 
+10
+30
+30
+60
+40
+
+0
+0
+0
+0
+0
+Opolchénié  y Vojd  (milice + Gl. ),
+20
+10
+10
+65
+10
+Iéguerski  y Vojd  (chas. + Général ),
+20
+30
+30
+65
+20
+Piéchoti    y Vojd  (mous. + Général),
+20
+50
+50
+65
+80
+Grénadié  y Vojd  (gren. + Général),
+20
+50
+60
+65
+30
+Proviti   y Vojd  ( Garde + Général),
+20
+70
+70
+65
+20
+
+0
+0
+0
+0
+0
+kosack(s),
+20
+40
+0
+120
+90
+gousari  ( hussards ),
+20
+45
+15
+120
+20
+dragouski, kurassy  ( cav. lourde ),
+20
+55
+25
+120
+40
+kosack,ulhan Proviti  (cav.lég. garde)
+20
+50
+25
+120
+20
+kurassy Proviti ( cav. lourde  garde)
+20
+70
+30
+120
+10
+Kosack  y vojd  ( cos. + Général ),
+20
+50
+10
+125
+20
+Gousari  y vojd  ( hus. + Général ),
+20
+55
+25
+125
+20
+Dragouski  y vojd ( cav. lourde + Gl ),
+20
+65
+35
+125
+30
+Kosack Proviti y vojd Karpof,
+20
+60
+20
+125
+10
+Kurassy  Proviti y vojd Dépréradof,
+20
+75
+45
+125
+10
+
+0
+0
+0
+0
+0
+pouchka strania   (artillerie légère)
+35
+30
+30
+10
+90
+Pouchka tiazholy (artillerie lourde)
+50
+50
+50
+20
+80
+Vojdvojd  ( Q.G. ) 
+0
+10
+10
+110
+70
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+régiment(s) d'inf.  lègère fr. ou al. 
+10
+15
+10
+60
+70
+régiment(s) de ligne allié  [sauf It.] 
+10
+20
+20
+60
+120
+régiment(s) d'infanterie de ligne 
+10
+25
+25
+60
+250
+régiment(s) de Garde It., Po. ou JG 
+10
+30
+30
+60
+30
+régiment(s) de Grenadiers 
+10
+35
+35
+60
+40
+
+0
+0
+0
+0
+0
+Brigade légère avec Général
+20
+40
+30
+65
+20
+Brigade alliée avec Général
+20
+50
+50
+65
+30
+Brigade de ligne avec général
+20
+60
+60
+65
+70
+Garde It., Ws, ou JG. avec Général
+20
+70
+70
+65
+20
+Vieille Garde avec Lefèbvre
+20
+80
+80
+65
+10
+
+0
+0
+0
+0
+0
+division(s) de cavalerie légère
+20
+50
+10
+120
+80
+division(s) de cavalerie lourde
+20
+60
+20
+120
+55
+division(s) de lanciers de la Garde
+20
+60
+20
+120
+20
+
+0
+0
+0
+0
+0
+Cavalerie légère avec Général
+20
+60
+20
+125
+40
+Cuirassiers avec Général,
+20
+70
+30
+125
+20
+Dragons de la reine avec d'Ornano,
+20
+65
+35
+125
+10
+Grenadiers à ch. avec Bessière,
+20
+80
+40
+125
+10
+Cuirassiers avec MURAT,
+25
+70
+40
+115
+0
+
+0
+0
+0
+0
+0
+batterie d'artillerie légère.
+40
+25
+25
+10
+70
+batterie d'artillerie Lourde.
+55
+50
+50
+20
+50
+Quartier Général 
+0
+10
+10
+110
+70
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
+
+0
+0
+0
+0
+0
