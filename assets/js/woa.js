@@ -5,86 +5,107 @@ const initApp = () => {
     const selectAnnee = document.getElementById('annee')
     const selectCategorie = document.getElementById('categorie')
     const selectUnitesStrat = document.getElementById('uniteStrat')
-    let years = []
-    let categories = []
-    let unitesStrat = []
 
-    // if (db.valid('troupes', location)) {         
-    //     db.getAll('troupes', location, (succ, data) => {
-    //         if(succ) {
-    //             data.forEach(element => {
-    //                 let yearExists = false
-    //                 let categorieExists = false
-    //                 let uniteStratExists = false
+    let generauxFr = []
+    let generauxRu = []
 
-    //                 const { date, categorie, us } = element
+    if (db.valid('troupes', location)) {         
+        db.getAll('troupes', location, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {
 
-    //                 // get every existing years
-    //                 if(date !== null) {
-    //                     for (let i = 0; i < years.length; i++) {
-    //                         if (date === years[i]) {
-    //                             yearExists = true
-    //                         }
-    //                     }
-    //                     if (yearExists === false) {
-    //                         years.push(date)
-    //                     }
-    //                 }
-    //                 // sort years
-    //                 years.sort()
-    //                 //reverse years order
-    //                 years.reverse()
-
-    //                 // get every existing categories
-    //                 if(categorie !== 'Categorie') {
-    //                     for (let i = 0; i < categories.length; i++) {
-    //                         if (categorie.toLowerCase() === categories[i]) {
-    //                             categorieExists = true
-    //                         }
-    //                     }
-    //                     if (categorieExists === false) {
-    //                         categories.push(categorie.toLowerCase())
-    //                     }
-    //                 }
-    //                 categories.sort()
-
-    //                 // get every existing stratigraphic units
-    //                 if(us !== null) {
-    //                     for (let i = 0; i < unitesStrat.length; i++) {
-    //                         if (us.toString().toLowerCase() === unitesStrat[i]) {
-    //                             uniteStratExists = true
-    //                         }
-    //                     }
-    //                     if (uniteStratExists === false) {
-    //                         unitesStrat.push(us.toString().toLowerCase())
-    //                     }
-    //                 }
-    //                 unitesStrat.sort()
-    //             })
                     
-    //             years.forEach(year => {
-    //                 const opt = document.createElement('option')
-    //                 opt.value = opt.text = year
-    //                 selectAnnee.appendChild(opt)
-    //             })
-                    
-    //             categories.forEach(categorie => {
-    //                 const opt = document.createElement('option')
-    //                 opt.value = opt.text = categorie
-    //                 selectCategorie.appendChild(opt)
-    //             })
-
-    //             unitesStrat.forEach(uniteStrat => {
-    //                 const opt = document.createElement('option')
-    //                 opt.value = opt.text = uniteStrat
-    //                 selectUnitesStrat.appendChild(opt)
-    //             })
-    //         } else {
-    //             console.log('An error has occured.')
-    //             console.log(`Message: ${data}`)
-    //         }
-    //     })
-    // }
+                    // get and sort all generaux
+                    if(element.type == 'generaux') {
+                        const { armee, nom, moral, portrait } = element
+                        if(armee == "fr") {
+                            generauxFr.push([nom, moral, portrait])
+                        } else {
+                            generauxRu.push([nom, moral, portrait])
+                        }
+                    }
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+            console.log(generauxFr)
+            console.log(generauxRu)
+        })
+    }
+    displayGnx(generauxFr, generauxRu)
     // document.getElementById('map').style.visibility = "hidden"
     // document.getElementById('dataTable').style.visibility = "hidden"
+}
+
+const displayGnx = (generauxFr, generauxRu) => {
+    // populate french army
+    let divGnxFr = document.getElementById("gnxFR")
+    // Title
+    let titleFr = document.createElement("h3")
+    titleFr.textContent = "Français"
+    divGnxFr.append(titleFr)
+    // display general info
+    for (let i = 0; i < generauxFr.length; i++) {
+        const general = generauxFr[i]
+
+        // create row
+        let divRow = document.createElement("div")
+        divRow.setAttribute("class", "row")
+        // create col for portait
+        let divColPic = document.createElement("div")
+        divColPic.setAttribute("class", "col-sm-2")
+        let portrait = document.createElement("img")
+        portrait.setAttribute("width", "80px")
+        portrait.setAttribute("src", `./assets/img/${general[2]}`)
+        divColPic.append(portrait)
+        divRow.append(divColPic)
+        // create col for name and moral
+        let divColName = document.createElement("div")
+        divColName.setAttribute("class", "col-sm-6")
+        let name = document.createElement("h4")
+        let moral = document.createElement("meter")
+        name.textContent = general[0]
+        moral.setAttribute("value", general[1])
+        divColName.append(name)
+        divColName.append(moral)
+        divRow.append(divColName)
+        // add to main page
+        divGnxFr.append(divRow)
+    }
+
+    // populate russian army
+    let divGnxRU = document.getElementById("gnxRU")
+    // Title
+    let titleRU = document.createElement("h3")
+    titleRU.textContent = "Austro-Russe"
+    divGnxRU.append(titleRU)
+    // display general info
+    for (let i = 0; i < generauxRu.length; i++) {
+        const general = generauxRu[i]
+
+        // create row
+        let divRow = document.createElement("div")
+        divRow.setAttribute("class", "row")
+        // create col for portait
+        let divColPic = document.createElement("div")
+        divColPic.setAttribute("class", "col-sm-2")
+        let portrait = document.createElement("img")
+        portrait.setAttribute("width", "80px")
+        portrait.setAttribute("src", `./assets/img/${general[2]}`)
+        divColPic.append(portrait)
+        divRow.append(divColPic)
+        // create col for name and moral
+        let divColName = document.createElement("div")
+        divColName.setAttribute("class", "col-sm-6")
+        let name = document.createElement("h4")
+        let moral = document.createElement("meter")
+        name.textContent = general[0]
+        moral.setAttribute("value", general[1])
+        divColName.append(name)
+        divColName.append(moral)
+        divRow.append(divColName)
+        // add to main page
+        divGnxRU.append(divRow)
+    }
 }

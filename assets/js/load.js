@@ -30,11 +30,13 @@ const dataLoad = (file) => {
                 obj.au = element[5]
                 obj.tu = element[6]
             }
+                      
             if (element[2] == "artillerie") {
                 obj.db = element[7]
             }
             if (element[2] == "generaux") {
                 obj.moral = element[8]
+                obj.portrait = element[9]
             }
             console.log(obj)
             
