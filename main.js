@@ -1,14 +1,13 @@
 const electron = require('electron')
 const url = require('url')
-const path = require('path');
-const { app, BrowserWindow, Menu, ipcMain } = electron
+const path = require('path')
+const { app, BrowserWindow, Menu } = electron
 
 // Set environment
 process.env.NODE_ENV = 'dev'
 
 let mainWindow
 let loadDataWindow
-let loadCarroyageWindow
 let helpWindow
 
 // Listen for app to be ready

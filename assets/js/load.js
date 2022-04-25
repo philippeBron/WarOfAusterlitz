@@ -1,33 +1,51 @@
-const csvForm = document.getElementById("csvForm")
-const csvFile = document.getElementById("csvFile")
+const path = require('path')
 
-csvForm.addEventListener("submit", function (e) {
-    e.preventDefault()
-    // console.log("Formulaire valide")
-    const file = csvFile.files[0]
-    const reader = new FileReader()
+const dataLoad = (file) => {
+    const readXLsxFile = require('read-excel-file/node')
+    const db = require('electron-db')
 
-    reader.onload = function (e) {
-        const text = e.target.result
-        const data = csvToArray(text)
-        console.log(data);
+    const location = path.join(__dirname, './')
+    db.createTable('troupes', location, (succ, msg) => {
+        console.log("Success: " + succ)
+        console.log("Message: " + msg)
+    })
+
+    if(db.valid('troupes', location)) {         
+        db.clearTable('troupes', location, (succ, msg) => {
+            console.log(`Success: ${succ}`)
+            console.log(`Message: ${msg}`)
+        })
     }
 
-    reader.readAsText(file)
-})
+    readXLsxFile(file).then((rows) => {
+        rows.forEach(element => {
+            let obj = new Object()
 
-function csvToArray(str, delimiter = ",") {
-    const headers = str.slice(0, str.indexOf("\n")).split(delimiter)
-
-    const rows = str.slice(str.indexOf("\n") +1).split("\n")
-
-    const arr = rows.map(function (row) {
-        const values = row.split(delimiter)
-        const el = headers.reduce(function (object, header, index) {
-            object[header] = values[index]
-            return object
-        }, {})
-        return el
+            obj.armee = element[0]
+            obj.nom = element[1]
+            obj.type = element[2]
+            if (element[2] == "troupe") {
+                obj.de = element[3]
+                obj.du = element[4]
+                obj.au = element[5]
+                obj.tu = element[6]
+            }
+            if (element[2] == "artillerie") {
+                obj.db = element[7]
+            }
+            if (element[2] == "generaux") {
+                obj.moral = element[8]
+            }
+            console.log(obj)
+            
+            if(db.valid('troupes', location)) {
+                db.insertTableContent('troupes', location, obj, (succ, msg) => {
+                    console.log(`Success: ${succ}`)
+                    console.log(`Message: ${msg}`)
+                })
+            }
+        })
+        console.log(`Données chargées.`)
+        window.close()
     })
-    return arr
 }
