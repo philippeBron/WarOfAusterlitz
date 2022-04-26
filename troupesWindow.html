@@ -11,7 +11,7 @@
 
     <title>War Of Austerlitz</title>
 </head>
-<body onload="initApp()">
+<body onload="displayTroupes()">
     <div class="container">
         <header class="page-header">
             <div class="row">
@@ -29,10 +29,10 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active" id="menuGnx">
+                    <li class="nav-item" id="menuGnx">
                         <a class="nav-link" href="mainWindow.html">Généraux <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item" id="menuTroupes">
+                    <li class="nav-item active" id="menuTroupes">
                         <a class="nav-link" href="troupesWindow.html">Troupes</a>
                     </li>
                     <li class="nav-item">
@@ -41,24 +41,10 @@
                 </ul>
             </div>
         </nav>
-        <div class="row" id="generaux">
-            <div class="col-sm-6" id="gnxFR">
-            </div>
-            <div class="col-sm-6" id="gnxRU">
-            </div>
-        </div>
-        <div class="row" id="troupes" style="visibility: hidden;">
+        <div class="row" id="troupes">
             <div class="col-sm-6" id="troupesFR">
-                <h3>Francaise</h3>
             </div>
             <div class="col-sm-6" id="troupesRU">
-                <h3>Austro-Russes</h3>
-            </div>
-        </div>
-        <div class="row" id="artillerie" hidden>
-            <div class="col-sm-6" id="artillerieFR">
-            </div>
-            <div class="col-sm-6" id="artillerieRU">
             </div>
         </div>
     </div>
