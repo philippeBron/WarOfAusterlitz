@@ -1,12 +1,14 @@
 const initApp = () => {
+   
+}
+
+const displayGnx = () => {
     const db = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
     let generauxFr = []
     let generauxRu = []
-    let troupesFr = []
-    let troupesRu = []
 
     if (db.valid('troupes', location)) {         
         db.getAll('troupes', location, (succ, data) => {
@@ -30,10 +32,7 @@ const initApp = () => {
             // console.log(generauxRu)
         })
     }
-    displayGnx(generauxFr, generauxRu)
-}
 
-const displayGnx = (generauxFr, generauxRu) => {
     // populate french army
     let divGnxFr = document.getElementById("gnxFR")
     // Title
@@ -131,8 +130,8 @@ const displayTroupes = () => {
                 console.log('An error has occured.')
                 console.log(`Message: ${data}`)
             }
-            console.log(troupesFr)
-            console.log(troupesRu)
+            // console.log(troupesFr)
+            // console.log(troupesRu)
         })
     }
 
@@ -255,8 +254,8 @@ const displayArtilleries = () => {
                 console.log('An error has occured.')
                 console.log(`Message: ${data}`)
             }
-            console.log(artillerieFr)
-            console.log(artillerieRu)
+            // console.log(artillerieFr)
+            // console.log(artillerieRu)
         })
     }
 
@@ -278,7 +277,7 @@ const displayArtilleries = () => {
         divColPic.setAttribute("class", "col-sm-2")
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/troupes.jpg`)
+        portrait.setAttribute("src", `./assets/img/artilleries.jpg`)
         divColPic.append(portrait)
         divRow.append(divColPic)
         // create col for name and moral
@@ -315,7 +314,7 @@ const displayArtilleries = () => {
         divColPic.setAttribute("class", "col-sm-2")
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/troupes.jpg`)
+        portrait.setAttribute("src", `./assets/img/artilleries.jpg`)
         divColPic.append(portrait)
         divRow.append(divColPic)
         // create col for name and moral
