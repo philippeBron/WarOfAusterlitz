@@ -1,0 +1,89 @@
+{
+  "battle": [
+    {
+      "armee": "fr",
+      "type": "generaux",
+      "nom": "Napoleon",
+      "moral": 0.5,
+      "portrait": "Napoleon.webp",
+      "id": 1651159737312
+    },
+    {
+      "armee": "fr",
+      "type": "generaux",
+      "nom": "DAVOUT",
+      "moral": 0.5,
+      "portrait": "Davout.jpg",
+      "id": 1651159737313
+    },
+    {
+      "armee": "fr",
+      "type": "generaux",
+      "nom": "SOULT",
+      "moral": 0.5,
+      "portrait": "Soult.jpg",
+      "id": 1651159737313
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "Brigade de Ligne avec Général",
+      "de": 2,
+      "du": 5,
+      "au": 5,
+      "tu": 6.5,
+      "id": 1651159742272
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "division(s) de chasseurs",
+      "de": 2,
+      "du": 0.5,
+      "au": 2,
+      "tu": 12,
+      "id": 1651159742273
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "division(s) de cuirassiers",
+      "de": 2,
+      "du": 1,
+      "au": 4,
+      "tu": 12,
+      "id": 1651159742281
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "Quartier Général",
+      "de": 0,
+      "du": 1,
+      "au": 1,
+      "tu": 11,
+      "id": 1651159742281
+    },
+    {
+      "armee": "fr",
+      "type": "artilleries",
+      "nom": "Batterie légère réduite",
+      "db": 1.3,
+      "id": 1651159746699
+    },
+    {
+      "armee": "fr",
+      "type": "artilleries",
+      "nom": "1ere Batterie Lourde",
+      "db": 5,
+      "id": 1651159746700
+    },
+    {
+      "armee": "fr",
+      "type": "artilleries",
+      "nom": "Batterie Lourde réduite",
+      "db": 2.5,
+      "id": 1651159746708
+    }
+  ]
+}

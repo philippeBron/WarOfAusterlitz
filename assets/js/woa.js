@@ -1,28 +1,34 @@
-const initApp = () => {
-   
+const { checkPrime } = require('crypto')
+
+const loadTroupe = () => {
+    displayTroupes("fr")
+    displayTroupes("au-ru")
+}
+
+const loadArtilleries = () => {
+    displayArtilleries("fr")
+    displayTroupes("au-ru")
 }
 
 const displayGnx = () => {
-    const db = require('electron-db')
+    const elecdb = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
     let generauxFr = []
     let generauxRu = []
 
-    if (db.valid('troupes', location)) {         
-        db.getAll('troupes', location, (succ, data) => {
+    if (elecdb.valid('generaux', location)) {         
+        elecdb.getAll('generaux', location, (succ, data) => {
             if(succ) {
                 data.forEach(element => {                    
                     // get and sort all generaux
-                    if(element.type == 'generaux') {
-                        const { armee, nom, moral, portrait } = element
-                        if(armee == "fr") {
-                            generauxFr.push([nom, moral, portrait])
-                        } else {
-                            generauxRu.push([nom, moral, portrait])
-                        }
-                    }        
+                    const { armee, nom, moral, portrait, id } = element
+                    if(armee == "fr") {
+                        generauxFr.push([nom, moral, portrait, id])
+                    } else {
+                        generauxRu.push([nom, moral, portrait, id])
+                    }   
                 })
             } else {
                 console.log('An error has occured.')
@@ -39,34 +45,42 @@ const displayGnx = () => {
     let titleFr = document.createElement("h3")
     titleFr.textContent = "Français"
     divGnxFr.append(titleFr)
+    let listeFr = document.createElement("ul")
+    divGnxFr.append(listeFr)
     // display general info
     for (let i = 0; i < generauxFr.length; i++) {
         const general = generauxFr[i]
 
         // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", general[0])
+        checkbox.setAttribute("name", general[0])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
         // create col for portait
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
+        let label = document.createElement("label")
+        label.setAttribute("for", general[0])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
         portrait.setAttribute("src", `./assets/img/${general[2]}`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = general[0]
         let moral = document.createElement("meter")
-        name.textContent = general[0]
         moral.setAttribute("value", general[1])
-        divColName.append(name)
-        divColName.append(moral)
-        divRow.append(divColName)
+        info.append(moral)
+        label.append(info)
+        item.append(label)       
         // add to main page
-        divGnxFr.append(divRow)
+        listeFr.append(item)
     }
+    //add submit button
+    let submitGnxFr = document.createElement("input")
+    submitGnxFr.setAttribute("type", "submit")
+    submitGnxFr.setAttribute("value", "Chargez!!!")
+    divGnxFr.append(submitGnxFr)
 
     // populate russian army
     let divGnxRU = document.getElementById("gnxRU")
@@ -74,262 +88,322 @@ const displayGnx = () => {
     let titleRU = document.createElement("h3")
     titleRU.textContent = "Austro-Russe"
     divGnxRU.append(titleRU)
+    let listeRU = document.createElement("ul")
+    divGnxRU.append(listeRU)
     // display general info
     for (let i = 0; i < generauxRu.length; i++) {
         const general = generauxRu[i]
 
         // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", general[0])
+        checkbox.setAttribute("name", general[0])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
         // create col for portait
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
+        let label = document.createElement("label")
+        label.setAttribute("for", general[0])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
         portrait.setAttribute("src", `./assets/img/${general[2]}`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = general[0]
         let moral = document.createElement("meter")
-        name.textContent = general[0]
         moral.setAttribute("value", general[1])
-        divColName.append(name)
-        divColName.append(moral)
-        divRow.append(divColName)
+        info.append(moral)
+        label.append(info)
+        item.append(label)       
         // add to main page
-        divGnxRU.append(divRow)
+        listeRU.append(item)
     }
+    //add submit button
+    let submitGnxRu = document.createElement("input")
+    submitGnxRu.setAttribute("type", "submit")
+    submitGnxRu.setAttribute("value", "Chargez!!!")
+    divGnxRU.append(submitGnxRu)
 }
 
-const displayTroupes = () => {
-    const db = require('electron-db')
+const displayTroupes = (armee) => {
+    const elecdb = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
-    let troupesFr = []
-    let troupesRu = []
+    let troupes = []
+    const where = {
+        "armee": armee
+    }
 
-    if (db.valid('troupes', location)) {         
-        db.getAll('troupes', location, (succ, data) => {
+    if (elecdb.valid('troupes', location)) {         
+        elecdb.getRows('troupes', location, where, (succ, data) => {
             if(succ) {
-                data.forEach(element => {                    
+                data.forEach(troupe => {                    
                     // get and sort all troupes
-                    if(element.type == 'troupe') {
-                        const { armee, nom, de, du, au, tu } = element
-                        if(armee == "fr") {
-                            troupesFr.push([nom, de, du, au, tu])
-                        } else {
-                            troupesRu.push([nom, de, du, au, tu])
-                        }
-                    }
+                    const { armee, nom, de, du, au, tu } = troupe
+                    troupes.push([nom, de, du, au, tu])
                 })
             } else {
                 console.log('An error has occured.')
                 console.log(`Message: ${data}`)
             }
-            // console.log(troupesFr)
-            // console.log(troupesRu)
         })
     }
 
-    // populate french army
-    let divtroupesFR = document.getElementById("troupesFR")
-    // Title
-    let titleFr = document.createElement("h3")
-    titleFr.textContent = "Françaises"
-    divtroupesFR.append(titleFr)
-    // display troupe info
-    for (let i = 0; i < troupesFr.length; i++) {
-        const troupe = troupesFr[i]
-
-        // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
-        // create col for image
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/troupes.jpg`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
-        let properties = document.createElement("ul")
-        let de = document.createElement("li")
-        let du = document.createElement("li")
-        let au = document.createElement("li")
-        let tu = document.createElement("li")
-        name.textContent = troupe[0]
-        de.textContent = `de = ${troupe[1]}`
-        properties.append(de)
-        du.textContent = `du = ${troupe[2]}`
-        properties.append(du)
-        au.textContent = `au = ${troupe[3]}`
-        properties.append(au)
-        tu.textContent = `tu = ${troupe[4]}`
-        properties.append(tu)
-        divColName.append(name)
-        divColName.append(properties)
-        divRow.append(divColName)
-        // add to main page
-        divtroupesFR.append(divRow)
+    // populate army
+    let divTroupes
+    let title
+    if (armee == "fr") {
+        divTroupes = document.getElementById("troupesFR")       
+        // Title
+        title = document.createElement("h3")
+        title.textContent = "Françaises"
+    } else {
+        divTroupes = document.getElementById("troupesRU")       
+        // Title
+        title = document.createElement("h3")
+        title.textContent = "Austro-Russes"
     }
+    divTroupes.append(title)
+    let listeTroupes = document.createElement("ul")
+    divTroupes.append(listeTroupes)
 
-    // populate russian army
-    let divtroupesRU = document.getElementById("troupesRU")
-    // Title
-    let titleRU = document.createElement("h3")
-    titleRU.textContent = "Austro-Russes"
-    divtroupesRU.append(titleRU)
     // display troupe info
-    for (let i = 0; i < troupesRu.length; i++) {
-        const troupe = troupesRu[i]
-
+    troupes.forEach(troupe => {
         // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
-        // create col for image
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", troupe[0])
+        checkbox.setAttribute("name", troupe[0])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
+        // create col for portait
+        let label = document.createElement("label")
+        label.setAttribute("for", troupe[0])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/troupes.jpg`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
-        let properties = document.createElement("ul")
-        let de = document.createElement("li")
-        let du = document.createElement("li")
-        let au = document.createElement("li")
-        let tu = document.createElement("li")
-        name.textContent = troupe[0]
-        de.textContent = `de = ${troupe[1]}`
-        properties.append(de)
-        du.textContent = `du = ${troupe[2]}`
-        properties.append(du)
-        au.textContent = `au = ${troupe[3]}`
-        properties.append(au)
-        tu.textContent = `tu = ${troupe[4]}`
-        properties.append(tu)
-        divColName.append(name)
-        divColName.append(properties)
-        divRow.append(divColName)
+        portrait.setAttribute("src", "./assets/img/troupes.jpg")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = troupe[0]
+        label.append(info)
+        item.append(label)       
         // add to main page
-        divtroupesRU.append(divRow)
+        listeTroupes.append(item)        
+    })
+    if (divTroupes.tagName == "FORM") {
+        //add submit button
+        let submitTroupes = document.createElement("input")
+        submitTroupes.setAttribute("type", "submit")
+        submitTroupes.setAttribute("value", "A l'attaque!!!")
+        divTroupes.append(submitTroupes)
     }
 }
 
-const displayArtilleries = () => {
-    const db = require('electron-db')
+const displayArtilleries = (armee) => {
+    const elecdb = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
-    let artillerieFr = []
-    let artillerieRu = []
+    let artilleries = []
+    const where = {
+        "armee": armee
+    }
 
-    if (db.valid('troupes', location)) {         
-        db.getAll('troupes', location, (succ, data) => {
+    if (elecdb.valid('artilleries', location)) {         
+        elecdb.getRows('artilleries', location, where, (succ, data) => {
             if(succ) {
-                data.forEach(element => {                    
-                    // get and sort all troupes
-                    if(element.type == 'artillerie') {
-                        const { armee, nom, db } = element
-                        if(armee == "fr") {
-                            artillerieFr.push([nom, db ])
-                        } else {
-                            artillerieRu.push([nom, db ])
-                        }
-                    }
+                data.forEach(artillerie => {                    
+                    // get artilleries
+                    const { armee, nom, db } = artillerie
+                    artilleries.push([ nom, db ])
                 })
             } else {
                 console.log('An error has occured.')
                 console.log(`Message: ${data}`)
             }
-            // console.log(artillerieFr)
-            // console.log(artillerieRu)
         })
     }
 
-    // populate french army
-    let divArtillerieFR = document.getElementById("artillerieFR")
-    // Title
-    let titleFr = document.createElement("h3")
-    titleFr.textContent = "Françaises"
-    divArtillerieFR.append(titleFr)
-    // display troupe info
-    for (let i = 0; i < artillerieFr.length; i++) {
-        const artillerie = artillerieFr[i]
+    // populate army
+    let divArtilleries
+    let title
+    if (armee == "fr") {
+        divArtilleries = document.getElementById("artilleriesFR")       
+        // Title
+        title = document.createElement("h3")
+        title.textContent = "Françaises"
+    } else {
+        divArtilleries = document.getElementById("artilleriesRU")       
+        // Title
+        title = document.createElement("h3")
+        title.textContent = "Austro-Russes"
+    }
+    divArtilleries.append(title)
+    let listeArtilleries = document.createElement("ul")
+    divArtilleries.append(listeArtilleries)
 
+    // display troupe info
+    artilleries.forEach(artillerie => {
         // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
-        // create col for image
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", artillerie[0])
+        checkbox.setAttribute("name", artillerie[0])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
+        // create col for portait
+        let label = document.createElement("label")
+        label.setAttribute("for", artillerie[0])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/artilleries.jpg`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
-        let properties = document.createElement("ul")
-        let db = document.createElement("li")
-        name.textContent = artillerie[0]
-        db.textContent = `db = ${artillerie[1]}`
-        properties.append(db)
-        divColName.append(name)
-        divColName.append(properties)
-        divRow.append(divColName)
+        portrait.setAttribute("src", "./assets/img/artilleries.jpg")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = artillerie[0]
+        label.append(info)
+        item.append(label)       
         // add to main page
-        divArtillerieFR.append(divRow)
+        listeArtilleries.append(item)        
+    })
+    if (divArtilleries.tagName == "FORM") {
+        //add submit button
+        let submitArtilleries = document.createElement("input")
+        submitArtilleries.setAttribute("type", "submit")
+        submitArtilleries.setAttribute("value", "A l'attaque!!!")
+        divArtilleries.append(submitArtilleries)
     }
+}
 
-    // populate russian army
-    let divArtillerieRU = document.getElementById("artillerieRU")
-    // Title
-    let titleRU = document.createElement("h3")
-    titleRU.textContent = "Austro-Russes"
-    divArtillerieRU.append(titleRU)
-    // display troupe info
-    for (let i = 0; i < artillerieRu.length; i++) {
-        const artillerie = artillerieRu[i]
+const displayRecap = (batteleData) => {
+    const { generaux, troupes, artilleries} = batteleData
+    console.log(generaux);
 
+    let armee = "fr"
+
+    // populate attacker
+    // let divAttaque
+    // let title
+    // if (armee == "fr") {
+    //     divAttaque = document.getElementById("attaque")       
+    //     // Title
+    //     title = document.createElement("h3")
+    //     title.textContent = "Attaque françaises"
+    // } else {
+    //     divAttaque = document.getElementById("attaque")       
+    //     // Title
+    //     title = document.createElement("h3")
+    //     title.textContent = "Attaque austro-russes"
+    // }
+    // divAttaque.append(title)
+
+    let divAttaque = document.getElementById("attaque")
+
+    // display generaux info
+    let titleGnx = document.createElement("h4")
+    titleGnx.textContent = "Généraux"
+    divAttaque.append(titleGnx)
+    let listeGnx = document.createElement("ul")
+    divAttaque.append(listeGnx)
+    
+    generaux.forEach(general => {
         // create row
-        let divRow = document.createElement("div")
-        divRow.setAttribute("class", "row")
-        // create col for image
-        let divColPic = document.createElement("div")
-        divColPic.setAttribute("class", "col-sm-2")
+        console.log(general);        
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", general[1])
+        checkbox.setAttribute("name", general[1])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
+        // create col for portait
+        let label = document.createElement("label")
+        label.setAttribute("for", general[1])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/artilleries.jpg`)
-        divColPic.append(portrait)
-        divRow.append(divColPic)
-        // create col for name and moral
-        let divColName = document.createElement("div")
-        divColName.setAttribute("class", "col-sm-6")
-        let name = document.createElement("h4")
-        let properties = document.createElement("ul")
-        let db = document.createElement("li")
-        name.textContent = artillerie[0]
-        db.textContent = `db = ${artillerie[1]}`
-        properties.append(db)
-        divColName.append(name)
-        divColName.append(properties)
-        divRow.append(divColName)
+        portrait.setAttribute("src", `./assets/img/${general[3]}`)
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = general[1]
+        label.append(info)
+        item.append(label)       
         // add to main page
-        divArtillerieRU.append(divRow)
-    }
+        listeGnx.append(item)        
+    })
+    divAttaque.append(document.createElement("hr"))
+
+    // display troupes info
+    let titleTroupes = document.createElement("h4")
+    titleTroupes.textContent = "Troupes"
+    divAttaque.append(titleTroupes)
+    let listeTroupes = document.createElement("ul")
+    divAttaque.append(listeTroupes)
+    
+    troupes.forEach(troupe => {
+        // create row
+        console.log(troupe);        
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", troupe[1])
+        checkbox.setAttribute("name", troupe[1])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
+        // create col for portait
+        let label = document.createElement("label")
+        label.setAttribute("for", troupe[1])
+        let portrait = document.createElement("img")
+        portrait.setAttribute("width", "80px")
+        portrait.setAttribute("src", "./assets/img/troupes.jpg")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = troupe[1]
+        label.append(info)
+        item.append(label)       
+        // add to main page
+        listeTroupes.append(item)        
+    })
+    divAttaque.append(document.createElement("hr"))
+
+    // display artilleries info
+    let titleArtilleries = document.createElement("h4")
+    titleArtilleries.textContent = "Artilleries"
+    divAttaque.append(titleArtilleries)
+    let listeArtilleries = document.createElement("ul")
+    divAttaque.append(listeArtilleries)
+    
+    artilleries.forEach(artillerie => {
+        // create row
+        console.log(artillerie);        
+        let item = document.createElement("li")
+        let checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("id", artillerie[1])
+        checkbox.setAttribute("name", artillerie[1])
+        checkbox.setAttribute("style", "display:none;")
+        item.append(checkbox)
+        // create col for portait
+        let label = document.createElement("label")
+        label.setAttribute("for", artillerie[1])
+        let portrait = document.createElement("img")
+        portrait.setAttribute("width", "80px")
+        portrait.setAttribute("src", "./assets/img/artilleries.jpg")
+        label.append(portrait)
+        let info = document.createElement("p")
+        info.textContent = artillerie[1]
+        label.append(info)
+        item.append(label)       
+        // add to main page
+        listeArtilleries.append(item)        
+    })
+    // if (divTroupes.tagName == "FORM") {
+    //     //add submit button
+    //     let submitTroupes = document.createElement("input")
+    //     submitTroupes.setAttribute("type", "submit")
+    //     submitTroupes.setAttribute("value", "Chargez!!!")
+    //     divTroupes.append(submitTroupes)
+    // }
 }

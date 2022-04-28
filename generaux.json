@@ -1,0 +1,88 @@
+{
+  "generaux": [
+    {
+      "armee": "fr",
+      "nom": "Napoleon",
+      "moral": 0.5,
+      "portrait": "Napoleon.webp",
+      "id": 1651093288127
+    },
+    {
+      "armee": "fr",
+      "nom": "BERNADOTE",
+      "moral": 0.5,
+      "portrait": "Bernadotte.jpg",
+      "id": 1651093288127
+    },
+    {
+      "armee": "fr",
+      "nom": "DAVOUT",
+      "moral": 0.5,
+      "portrait": "Davout.jpg",
+      "id": 1651093288127
+    },
+    {
+      "armee": "fr",
+      "nom": "SOULT",
+      "moral": 0.5,
+      "portrait": "Soult.jpg",
+      "id": 1651093288127
+    },
+    {
+      "armee": "fr",
+      "nom": "LANNES",
+      "moral": 0.5,
+      "portrait": "Lannes.jpg",
+      "id": 1651093288128
+    },
+    {
+      "armee": "fr",
+      "nom": "MURAT",
+      "moral": 0.5,
+      "portrait": "Murat.jpg",
+      "id": 1651093288128
+    },
+    {
+      "armee": "au-ru",
+      "nom": "ALEXANDRE Ier",
+      "moral": 0.5,
+      "portrait": "AlexandreIer.jpg",
+      "id": 1651093288137
+    },
+    {
+      "armee": "au-ru",
+      "nom": "BUXHOVEN",
+      "moral": 0.5,
+      "portrait": "Buxhoevden.jpg",
+      "id": 1651093288137
+    },
+    {
+      "armee": "au-ru",
+      "nom": "KOUTOUZOF",
+      "moral": 0.5,
+      "portrait": "Koutouzof.jpg",
+      "id": 1651093288138
+    },
+    {
+      "armee": "au-ru",
+      "nom": "BAGRATION",
+      "moral": 0.5,
+      "portrait": "Bagration.jpg",
+      "id": 1651093288138
+    },
+    {
+      "armee": "au-ru",
+      "nom": "LIECHTEINSTEIN",
+      "moral": 0.5,
+      "portrait": "Liechtenstein.jpg",
+      "id": 1651093288138
+    },
+    {
+      "armee": "au-ru",
+      "nom": "FRANCOIS II",
+      "moral": 0.5,
+      "portrait": "RussiaFlag.jpg",
+      "id": 1651093288138
+    }
+  ]
+}
