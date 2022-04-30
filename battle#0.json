@@ -1,0 +1,32 @@
+{
+  "battle#0": [
+    {
+      "armee": "fr",
+      "nom": "Napoleon",
+      "moral": 0.5,
+      "portrait": "Napoleon.webp",
+      "id": 1651260022255
+    },
+    {
+      "armee": "fr",
+      "nom": "SOULT",
+      "moral": 0.5,
+      "portrait": "Soult.jpg",
+      "id": 1651260022262
+    },
+    {
+      "armee": "au-ru",
+      "nom": "KOUTOUZOF",
+      "moral": 0.5,
+      "portrait": "Koutouzof.jpg",
+      "id": 1651260022263
+    },
+    {
+      "armee": "au-ru",
+      "nom": "LIECHTEINSTEIN",
+      "moral": 0.5,
+      "portrait": "Liechtenstein.jpg",
+      "id": 1651260022265
+    }
+  ]
+}

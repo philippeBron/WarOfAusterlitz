@@ -1,5 +1,13 @@
 const { checkPrime } = require('crypto')
 
+const initApp = () => {
+    localStorage.setItem("indexBataille", 0)
+    localStorage.setItem("indexCaseCombat", 0)
+    displayGnx()
+    let indexCombat = parseInt(localStorage.getItem("indexBataille"))
+    console.log(indexCombat+10);
+}
+
 const loadTroupe = () => {
     displayTroupes("fr")
     displayTroupes("au-ru")
@@ -10,34 +18,124 @@ const loadArtilleries = () => {
     displayTroupes("au-ru")
 }
 
-const displayGnx = () => {
+// retourne la liste des generaux d une armee
+const getGeneraux = (armee) => {
     const elecdb = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
-    let generauxFr = []
-    let generauxRu = []
+    let generaux = []
+    const where = {
+        "armee": armee
+    }
 
     if (elecdb.valid('generaux', location)) {         
-        elecdb.getAll('generaux', location, (succ, data) => {
+        elecdb.getRows('generaux', location, where, (succ, data) => {
             if(succ) {
-                data.forEach(element => {                    
-                    // get and sort all generaux
-                    const { armee, nom, moral, portrait, id } = element
-                    if(armee == "fr") {
-                        generauxFr.push([nom, moral, portrait, id])
-                    } else {
-                        generauxRu.push([nom, moral, portrait, id])
-                    }   
+                data.forEach(general => {                    
+                    // remplis la table des generaux
+                    const { armee, nom, moral, portrait, id } = general
+                    generaux.push([nom, moral, portrait, id])
                 })
             } else {
                 console.log('An error has occured.')
                 console.log(`Message: ${data}`)
             }
-            // console.log(generauxFr)
-            // console.log(generauxRu)
         })
     }
+    return generaux
+}
+
+// retourne la liste des troupes d une armee
+const getTroupes = (armee) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let troupes = []
+    const where = {
+        "armee": armee
+    }
+
+    if (elecdb.valid('troupes', location)) {         
+        elecdb.getRows('troupes', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(troupe => {                        
+                    // remplis la table des troupes
+                    const { armee, nom, de, du, au, tu } = troupe
+                    troupes.push([nom, de, du, au, tu])
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return troupes
+}
+
+const getGeneral = (name) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let general = new Object()
+    const where = {
+        "nom": name
+    }
+
+    if (elecdb.valid('generaux', location)) {         
+        elecdb.getRows('generaux', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {                        
+                    // remplis la table des troupes  
+                    const { armee, nom, moral, portrait, id } = element
+                    general.armee = armee
+                    general.nom = nom
+                    general.moral = moral
+                    general.portrait = portrait
+                    general.id = id
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return general
+}
+
+// retourne la liste des artilleries
+const getArtilleries = (armee) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let artilleries = []
+    const where = {
+        "armee": armee
+    }
+
+    if (elecdb.valid('artilleries', location)) {         
+        elecdb.getRows('artilleries', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(artillerie => {                    
+                    // remplis la table des artilleries
+                    const { armee, nom, db } = artillerie
+                    artilleries.push([ nom, db ])
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return artilleries
+}
+
+const displayGnx = () => {
+    const generauxFr = getGeneraux("fr")
+    const generauxRu = getGeneraux("au-ru")
 
     // populate french army
     let divGnxFr = document.getElementById("gnxFR")
@@ -77,10 +175,10 @@ const displayGnx = () => {
         listeFr.append(item)
     }
     //add submit button
-    let submitGnxFr = document.createElement("input")
-    submitGnxFr.setAttribute("type", "submit")
-    submitGnxFr.setAttribute("value", "Chargez!!!")
-    divGnxFr.append(submitGnxFr)
+    // let submitGnxFr = document.createElement("input")
+    // submitGnxFr.setAttribute("type", "submit")
+    // submitGnxFr.setAttribute("value", "Chargez!!!")
+    // divGnxFr.append(submitGnxFr)
 
     // populate russian army
     let divGnxRU = document.getElementById("gnxRU")
@@ -120,52 +218,18 @@ const displayGnx = () => {
         listeRU.append(item)
     }
     //add submit button
-    let submitGnxRu = document.createElement("input")
-    submitGnxRu.setAttribute("type", "submit")
-    submitGnxRu.setAttribute("value", "Chargez!!!")
-    divGnxRU.append(submitGnxRu)
+    // let submitGnxRu = document.createElement("input")
+    // submitGnxRu.setAttribute("type", "submit")
+    // submitGnxRu.setAttribute("value", "Chargez!!!")
+    // divGnxRU.append(submitGnxRu)
 }
 
 const displayTroupes = (armee) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let troupes = []
-    const where = {
-        "armee": armee
-    }
-
-    if (elecdb.valid('troupes', location)) {         
-        elecdb.getRows('troupes', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(troupe => {                    
-                    // get and sort all troupes
-                    const { armee, nom, de, du, au, tu } = troupe
-                    troupes.push([nom, de, du, au, tu])
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
+    let troupes = getTroupes(armee)
 
     // populate army
-    let divTroupes
-    let title
-    if (armee == "fr") {
-        divTroupes = document.getElementById("troupesFR")       
-        // Title
-        title = document.createElement("h3")
-        title.textContent = "Françaises"
-    } else {
-        divTroupes = document.getElementById("troupesRU")       
-        // Title
-        title = document.createElement("h3")
-        title.textContent = "Austro-Russes"
-    }
-    divTroupes.append(title)
+    let divTroupes = document.getElementById("divTroupes")  
+    
     let listeTroupes = document.createElement("ul")
     divTroupes.append(listeTroupes)
 
@@ -189,7 +253,13 @@ const displayTroupes = (armee) => {
         let info = document.createElement("p")
         info.textContent = troupe[0]
         label.append(info)
-        item.append(label)       
+        
+        label.appendChild(document.createTextNode("Nomre d'unités "))
+        let nbUnites = document.createElement("input")
+        nbUnites.setAttribute("type", "texte")
+        nbUnites.setAttribute("name", troupe[0])
+        label.append(nbUnites)
+        item.append(label)          
         // add to main page
         listeTroupes.append(item)        
     })
@@ -197,51 +267,30 @@ const displayTroupes = (armee) => {
         //add submit button
         let submitTroupes = document.createElement("input")
         submitTroupes.setAttribute("type", "submit")
-        submitTroupes.setAttribute("value", "A l'attaque!!!")
+        submitTroupes.setAttribute("value", "Valider")
         divTroupes.append(submitTroupes)
     }
 }
 
+const showDistanceTir = (div) => {
+    const artillerie = div.getAttribute("id")
+    let inputDistance = document.getElementById(artillerie+"Input")
+    console.log(inputDistance.getAttribute("style"));
+    if (inputDistance.getAttribute("style") == "display: none;") {
+        inputDistance.setAttribute("style", "display: block;")        
+    } else {
+        inputDistance.setAttribute("style", "display: none;")    
+    }
+
+    inputDistance.focus()
+}
+
 const displayArtilleries = (armee) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let artilleries = []
-    const where = {
-        "armee": armee
-    }
-
-    if (elecdb.valid('artilleries', location)) {         
-        elecdb.getRows('artilleries', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(artillerie => {                    
-                    // get artilleries
-                    const { armee, nom, db } = artillerie
-                    artilleries.push([ nom, db ])
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
+    let artilleries = getArtilleries(armee)
 
     // populate army
-    let divArtilleries
-    let title
-    if (armee == "fr") {
-        divArtilleries = document.getElementById("artilleriesFR")       
-        // Title
-        title = document.createElement("h3")
-        title.textContent = "Françaises"
-    } else {
-        divArtilleries = document.getElementById("artilleriesRU")       
-        // Title
-        title = document.createElement("h3")
-        title.textContent = "Austro-Russes"
-    }
-    divArtilleries.append(title)
+    let divArtilleries = document.getElementById("divArtilleries")  
+    
     let listeArtilleries = document.createElement("ul")
     divArtilleries.append(listeArtilleries)
 
@@ -258,22 +307,38 @@ const displayArtilleries = (armee) => {
         // create col for portait
         let label = document.createElement("label")
         label.setAttribute("for", artillerie[0])
+        label.setAttribute("id", artillerie[0])
         let portrait = document.createElement("img")
         portrait.setAttribute("width", "80px")
         portrait.setAttribute("src", "./assets/img/artilleries.jpg")
         label.append(portrait)
         let info = document.createElement("p")
-        info.textContent = artillerie[0]
+        info.textContent = "Salve de " + artillerie[0]
         label.append(info)
-        item.append(label)       
+        label.setAttribute("onclick", "showDistanceTir(this);")
+        
+        let labelDistance = document.createTextNode("Distance ")
+        // labelDistance.setAttribute("style", "display: none;")
+        label.appendChild(labelDistance)
+        let distance = document.createElement("input")
+        distance.setAttribute("type", "texte")
+        distance.setAttribute("id", `${artillerie[0]}Input`)
+        distance.setAttribute("name", artillerie[0])
+        distance.setAttribute("style", "display: none;")
+        label.append(distance)
+        
+        item.append(label)     
+
         // add to main page
-        listeArtilleries.append(item)        
+        listeArtilleries.append(item)
+        
+
     })
     if (divArtilleries.tagName == "FORM") {
         //add submit button
         let submitArtilleries = document.createElement("input")
         submitArtilleries.setAttribute("type", "submit")
-        submitArtilleries.setAttribute("value", "A l'attaque!!!")
+        submitArtilleries.setAttribute("value", "Valider")
         divArtilleries.append(submitArtilleries)
     }
 }

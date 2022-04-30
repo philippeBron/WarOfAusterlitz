@@ -12,7 +12,7 @@
 
     <title>War Of Austerlitz</title>
 </head>
-<body onload="displayGnx()">
+<body onload="initApp()">
     <div class="container">
         <header class="page-header">
             <div class="row">
@@ -30,30 +30,23 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active" id="menuGnx">
-                        <a class="nav-link" href="mainWindow.html">Généraux <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" id="menuTroupes">
-                        <a class="nav-link" href="troupesWindow.html">Troupes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="artilleriesWindow.html">Artilleries</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Zone des combats <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <div class="row" id="generaux">
-            <div class="col-sm-6">
-                <form action="troupesChoice.html" method="get" id="gnxFR">
-                    <input type="text" name="armee" value="fr" style="display: none;">
-                </form>
+        <h3>Définition de la zone de combat</h3>
+        <p>Sélectionnez les chefs dont les troupes sont impliquées.</p>
+        <form action="caseCombat.html" method="get">
+            <div class="row" id="generaux">
+                    <div class="col-sm-6" id="gnxFR">
+                    </div>
+                    <div class="col-sm-6" id="gnxRU">    
+                    </div>
+                    <input type="submit" value="Chargez !!!">
             </div>
-            <div class="col-sm-6">                
-                <form action="troupesChoice.html" method="get" id="gnxRU">                    
-                    <input type="text" name="armee" value="au-ru" style="display: none;">
-                </form>
-            </div>
-        </div>
+        </form>
     </div>
     <div class="footer"> 
         <div class="row">

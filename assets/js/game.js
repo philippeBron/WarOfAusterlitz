@@ -1,52 +1,38 @@
-const playTroupes = () => {
-    let audio = new Audio("./assets/sounds/ANGLET.WAV")
-    audio.play()
-    createBattle()
-    let params = getParams()
-    console.log(params);
-    const armee = params[0][1]
-    // delete first row that content armee info
-    params.shift()
-    loadGenereauxBattle(params)
-    displayTroupes(armee)
+const getParams = () => {
+    let params = []
+    if(document.location.toString().indexOf('?') !== -1) {
+        let query = document.location
+                    .toString()
+                    // get the query string
+                    .replace(/^.*?\?/, '')
+                    // and remove any existing hash string (thanks, @vrijdenker)
+                    .replace(/#.*$/, '')
+                    .split('&')
+
+        for(let i=0, l=query.length; i<l; i++) {
+            let aux = decodeURIComponent(query[i]).split('=')
+            let param = [aux[0], aux[1]]
+            params.push(param)
+        }
+    }
+    //get the 'index' query parameter
+    return params
 }
 
-const playArtilleries = () => {
-    let audio = new Audio("./assets/sounds/ANGLET.WAV")
-    audio.play()
-    let params = getParams()
-    const armee = params[0][1]
-    // delete first row that content armee info
-    params.shift()
-    loadTroupesBattle(params)
-    displayArtilleries(armee)
-}
+const createBattle = (currentBattle) => {
 
-const recapAttaque = () => {
-    let audio = new Audio("./assets/sounds/FRANCE.WAV")
-    audio.play()
-    let params = getParams()
-    const armee = params[0][1]
-    // delete first row that content armee info
-    params.shift()
-    loadArtilleriesBattle(params)
-    batteleData = getBattleData()
-    displayRecap(batteleData);
-}
-
-const createBattle = () => {
     const elecdb= require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
     // create and clean battle data
-    elecdb.createTable('battle', location, (succ, msg) => {
+    elecdb.createTable(currentBattle, location, (succ, msg) => {
         console.log("Success: " + succ)
         console.log("Message: " + msg)
     })
 
-    if(elecdb.valid('battle', location)) {         
-        elecdb.clearTable('battle', location, (succ, msg) => {
+    if(elecdb.valid(currentBattle, location)) {         
+        elecdb.clearTable(currentBattle, location, (succ, msg) => {
             console.log(`Success: ${succ}`)
             console.log(`Message: ${msg}`)
         })
@@ -70,6 +56,90 @@ const createBattle = () => {
     //     })
     // }
 
+}
+
+const storeGeneral = (battle, general) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    if(elecdb.valid(battle, location)) {
+        elecdb.insertTableContent(battle, location, general, (succ, msg) => {
+            console.log(`Success: ${succ}`)
+            console.log(`Message: ${msg}`)
+        })
+    } else {
+        console.log('An error has occured.')
+        console.log(`Message: ${data}`)
+    }
+}
+
+const startBattle = () => {
+    // recuperation de l index courant de la bataille
+    const indexBataille = localStorage.getItem("indexBataille")
+
+    // creation et stockage du nom de la bataille en cours
+    const currentBattle = `battle#${indexBataille}`
+    localStorage.setItem("currentBattle", currentBattle)
+
+    // creation de la base pour la nouvelle bataille
+    createBattle(currentBattle)
+
+    // recupere les noms des generaux
+    const selectedGeneraux = getParams()
+    console.log(selectedGeneraux);
+    for (let index = 0; index < selectedGeneraux.length; index++) {
+        const general = getGeneral(selectedGeneraux[index][0])
+        storeGeneral(currentBattle, general)
+    }
+}
+
+const appuiArtillerie = (armee) => {
+    const nomCase = getParams()[0][1]
+    const ordreFR = getParams()[1][1]
+
+    // sauvegarde le nom de la case et l'ordre
+    localStorage.setItem("nomCase", nomCase)
+    localStorage.setItem("ordreFR", ordreFR)
+
+    displayArtilleries(armee)
+}
+
+const playTroupes = () => {
+    let audio = new Audio("./assets/sounds/ANGLET.WAV")
+    // audio.play()
+    createBattle()
+    let params = getParams()
+    console.log(params);
+    const armee = params[0][1]
+    // delete first row that content armee info
+    // params.shift()
+    loadGenereauxBattle(params)
+    displayTroupes(armee)
+}
+
+
+const playArtilleries = () => {
+    let audio = new Audio("./assets/sounds/ANGLET.WAV")
+    // audio.play()
+    let params = getParams()
+    const armee = params[0][1]
+    // delete first row that content armee info
+    params.shift()
+    loadTroupesBattle(params)
+    displayArtilleries(armee)
+}
+
+const recapAttaque = () => {
+    let audio = new Audio("./assets/sounds/FRANCE.WAV")
+    // audio.play()
+    let params = getParams()
+    const armee = params[0][1]
+    // delete first row that content armee info
+    params.shift()
+    loadArtilleriesBattle(params)
+    batteleData = getBattleData()
+    displayRecap(batteleData);
 }
 
 const loadGenereauxBattle = (params) => {
@@ -246,25 +316,4 @@ const getBattleData = () => {
         })
     }
     return {generaux, troupes, artilleries}
-}
-
-const getParams = () => {
-    let params = []
-    if(document.location.toString().indexOf('?') !== -1) {
-        let query = document.location
-                    .toString()
-                    // get the query string
-                    .replace(/^.*?\?/, '')
-                    // and remove any existing hash string (thanks, @vrijdenker)
-                    .replace(/#.*$/, '')
-                    .split('&')
-
-        for(let i=0, l=query.length; i<l; i++) {
-            let aux = decodeURIComponent(query[i]).split('=')
-            let param = [aux[0], aux[1]]
-            params.push(param)
-        }
-    }
-    //get the 'index' query parameter
-    return params
 }
