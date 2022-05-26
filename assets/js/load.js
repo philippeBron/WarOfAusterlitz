@@ -46,12 +46,13 @@ const dataLoad = (file) => {
             let obj = new Object()
 
             obj.armee = element[0]
-            obj.nom = element[1]
-            if (element[2] == "troupe") {
-                obj.de = element[3]
-                obj.du = element[4]
-                obj.au = element[5]
-                obj.tu = element[6]
+            obj.ident = element[1]
+            obj.nom = element[2]
+            if (element[3] == "troupes") {
+                obj.de = element[4]
+                obj.du = element[5]
+                obj.au = element[6]
+                obj.tu = element[7]
 
                 console.log(obj)
                 
@@ -63,8 +64,8 @@ const dataLoad = (file) => {
                 }
             }
                       
-            if (element[2] == "artillerie") {
-                obj.db = element[7]
+            if (element[3] == "artilleries") {
+                obj.db = element[8]
 
                 console.log(obj)
                 
@@ -75,9 +76,9 @@ const dataLoad = (file) => {
                     })
                 }
             }
-            if (element[2] == "generaux") {
-                obj.moral = element[8]
-                obj.portrait = element[9]
+            if (element[3] == "generaux") {
+                obj.moral = element[9]
+                obj.portrait = element[10]
                 
                 console.log(obj)
                 
@@ -88,7 +89,7 @@ const dataLoad = (file) => {
                     })
                 }
             }
-            // console.log(obj)
+            console.log(obj)
             
             // if(db.valid('troupes', location)) {
             //     db.insertTableContent('troupes', location, obj, (succ, msg) => {

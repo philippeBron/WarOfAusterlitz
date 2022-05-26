@@ -2,87 +2,99 @@
   "generaux": [
     {
       "armee": "fr",
+      "ident": "FRGN01",
       "nom": "Napoleon",
       "moral": 0.5,
       "portrait": "Napoleon.webp",
-      "id": 1651093288127
+      "id": 1651317402104
     },
     {
       "armee": "fr",
+      "ident": "FRGN02",
       "nom": "BERNADOTE",
       "moral": 0.5,
       "portrait": "Bernadotte.jpg",
-      "id": 1651093288127
+      "id": 1651317402105
     },
     {
       "armee": "fr",
+      "ident": "FRGN03",
       "nom": "DAVOUT",
       "moral": 0.5,
       "portrait": "Davout.jpg",
-      "id": 1651093288127
+      "id": 1651317402105
     },
     {
       "armee": "fr",
+      "ident": "FRGN04",
       "nom": "SOULT",
       "moral": 0.5,
       "portrait": "Soult.jpg",
-      "id": 1651093288127
+      "id": 1651317402105
     },
     {
       "armee": "fr",
+      "ident": "FRGN05",
       "nom": "LANNES",
       "moral": 0.5,
       "portrait": "Lannes.jpg",
-      "id": 1651093288128
+      "id": 1651317402106
     },
     {
       "armee": "fr",
+      "ident": "FRGN06",
       "nom": "MURAT",
       "moral": 0.5,
       "portrait": "Murat.jpg",
-      "id": 1651093288128
+      "id": 1651317402106
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN01",
       "nom": "ALEXANDRE Ier",
       "moral": 0.5,
       "portrait": "AlexandreIer.jpg",
-      "id": 1651093288137
+      "id": 1651317402122
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN02",
       "nom": "BUXHOVEN",
       "moral": 0.5,
       "portrait": "Buxhoevden.jpg",
-      "id": 1651093288137
+      "id": 1651317402123
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN03",
       "nom": "KOUTOUZOF",
       "moral": 0.5,
       "portrait": "Koutouzof.jpg",
-      "id": 1651093288138
+      "id": 1651317402123
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN04",
       "nom": "BAGRATION",
       "moral": 0.5,
       "portrait": "Bagration.jpg",
-      "id": 1651093288138
+      "id": 1651317402124
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN05",
       "nom": "LIECHTEINSTEIN",
       "moral": 0.5,
       "portrait": "Liechtenstein.jpg",
-      "id": 1651093288138
+      "id": 1651317402124
     },
     {
       "armee": "au-ru",
+      "ident": "ARGN06",
       "nom": "FRANCOIS II",
       "moral": 0.5,
       "portrait": "RussiaFlag.jpg",
-      "id": 1651093288138
+      "id": 1651317402125
     }
   ]
 }

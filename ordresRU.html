@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/wao.css">
     <script src="./assets/js/game.js"></script>
     <script src="./assets/js/woa.js"></script>
     <title>War Of Austerlitz</title>
 </head>
 
-<body onload="recapAttaque('fr')">
+<body onload="getRUorders()">
     <div class="container">
         <header class="page-header">
             <div class="row">
@@ -30,25 +31,34 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" id="menuGnx">
-                        <a class="nav-link" href="mainWindow.html">Généraux <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" id="menuTroupes">
-                        <a class="nav-link" href="troupesWindow.html">Troupes</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Zone des combats</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="artilleriesWindow.html">Artilleries</a>
+                        <a class="nav-link" href="#">Ordres du Général <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <div class="row">
-            <div class="col-sm-12" id="france">
-                <h3>France</h3>
+        <div class="row" id="ordres">
+            <div class="col-sm-12">
+                <p id="nomCaseCombat"></p>
+                <hr>
+                <form action="tirArtillerieRU.html" method="get">
+                    <h4 id="ordresTitle"></h4>
+                    <fieldset name="ordres" id="ordres">
+                        <input type="radio" name="ordres" value="tir"> Tir d'artillerie isolée (sans attaque directe)<br>
+                        <input type="radio" name="ordres" value="assaut"> Assaut (prendre la position coûte que coûte)<br>
+                        <input type="radio" name="ordres" value="attaque"> Attaque (prendre, si-possible, la position)<br>
+                        <input type="radio" name="ordres" value="diversion"> Diversion (faire semblant de prendre la position)<br>
+                        <input type="radio" name="ordres" value="tenir"> Tenir (garder la position coûte que coûte)<br>
+                        <input type="radio" name="ordres" value="defense"> Défense (se replier si necessaire)<br>
+                        <input type="radio" name="ordres" value="repli"> Repli (lacher la position)<br>
+                        <input type="radio" name="ordres" value="zut"> Qu'ils se débrouillent !!!!! (tout sauf tir et repli)<br>
+                    </fieldset>
+                    <input type="submit" value="Valider">
+                </form>
             </div>
-            <form action="ordresRU.html" method="get">
-                <input type="submit" value="Poursuivre">
-            </form>
         </div>
         <div class="footer">
             <div class="row">

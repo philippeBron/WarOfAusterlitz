@@ -1,11 +1,10 @@
 const { checkPrime } = require('crypto')
 
 const initApp = () => {
+    localStorage.clear()
     localStorage.setItem("indexBataille", 0)
     localStorage.setItem("indexCaseCombat", 0)
     displayGnx()
-    let indexCombat = parseInt(localStorage.getItem("indexBataille"))
-    console.log(indexCombat+10);
 }
 
 const loadTroupe = () => {
@@ -34,8 +33,8 @@ const getGeneraux = (armee) => {
             if(succ) {
                 data.forEach(general => {                    
                     // remplis la table des generaux
-                    const { armee, nom, moral, portrait, id } = general
-                    generaux.push([nom, moral, portrait, id])
+                    const { nom, moral, portrait, ident } = general
+                    generaux.push([nom, moral, portrait, ident])
                 })
             } else {
                 console.log('An error has occured.')
@@ -62,8 +61,8 @@ const getTroupes = (armee) => {
             if(succ) {
                 data.forEach(troupe => {                        
                     // remplis la table des troupes
-                    const { armee, nom, de, du, au, tu } = troupe
-                    troupes.push([nom, de, du, au, tu])
+                    const { armee, nom, de, du, au, tu, ident } = troupe
+                    troupes.push([nom, de, du, au, tu, ident])
                 })
             } else {
                 console.log('An error has occured.')
@@ -72,37 +71,6 @@ const getTroupes = (armee) => {
         })
     }
     return troupes
-}
-
-const getGeneral = (name) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let general = new Object()
-    const where = {
-        "nom": name
-    }
-
-    if (elecdb.valid('generaux', location)) {         
-        elecdb.getRows('generaux', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(element => {                        
-                    // remplis la table des troupes  
-                    const { armee, nom, moral, portrait, id } = element
-                    general.armee = armee
-                    general.nom = nom
-                    general.moral = moral
-                    general.portrait = portrait
-                    general.id = id
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
-    return general
 }
 
 // retourne la liste des artilleries
@@ -121,8 +89,8 @@ const getArtilleries = (armee) => {
             if(succ) {
                 data.forEach(artillerie => {                    
                     // remplis la table des artilleries
-                    const { armee, nom, db } = artillerie
-                    artilleries.push([ nom, db ])
+                    const { armee, type, nom, db, ident } = artillerie
+                    artilleries.push([ nom, "artilleries", db, ident ])
                 })
             } else {
                 console.log('An error has occured.')
@@ -133,204 +101,233 @@ const getArtilleries = (armee) => {
     return artilleries
 }
 
+const getGeneral = (ident) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let general = new Object()
+    const where = {
+        "ident": ident
+    }
+
+    if (elecdb.valid('generaux', location)) {         
+        elecdb.getRows('generaux', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {                        
+                    // remplis la table des troupes  
+                    const { armee, type, nom, moral, portrait, ident } = element
+                    general.armee = armee
+                    general.type = "generaux"
+                    general.nom = nom
+                    general.moral = moral
+                    general.portrait = portrait
+                    general.ident = ident
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return general
+}
+
+const getArtillerie = (ident) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let artillerie = new Object()
+    const where = {
+        "ident": ident
+    }
+
+    if (elecdb.valid('artilleries', location)) {         
+        elecdb.getRows('artilleries', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {                        
+                    // remplis la table des troupes  
+                    const { armee, nom, db, ident } = element
+                    artillerie.armee = armee
+                    artillerie.type = "artilleries"
+                    artillerie.nom = nom
+                    artillerie.db = db
+                    artillerie.ident = ident
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return artillerie
+
+}
+
+const getTroupe = (ident) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let troupe = new Object()
+    const where = {
+        "ident": ident
+    }
+
+    if (elecdb.valid('troupes', location)) {         
+        elecdb.getRows('troupes', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {                        
+                    // remplis la table des troupes  
+                    const { armee, nom, de, du, au, tu, ident } = element
+                    troupe.armee = armee
+                    troupe.type = "troupes"
+                    troupe.nom = nom
+                    troupe.de = de
+                    troupe.du = du
+                    troupe.au = au
+                    troupe.tu = tu
+                    troupe.ident = ident
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return troupe
+
+}
+
 const displayGnx = () => {
     const generauxFr = getGeneraux("fr")
     const generauxRu = getGeneraux("au-ru")
 
-    // populate french army
+    // affichage des generaux francais
     let divGnxFr = document.getElementById("gnxFR")
-    // Title
-    let titleFr = document.createElement("h3")
-    titleFr.textContent = "Français"
-    divGnxFr.append(titleFr)
-    let listeFr = document.createElement("ul")
-    divGnxFr.append(listeFr)
-    // display general info
-    for (let i = 0; i < generauxFr.length; i++) {
-        const general = generauxFr[i]
 
-        // create row
-        let item = document.createElement("li")
+    for (let i = 0; i < generauxFr.length; i++) {
+        const general = generauxFr[i]        
         let checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", general[0])
-        checkbox.setAttribute("name", general[0])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
+        checkbox.setAttribute("id", general[3])
+        checkbox.setAttribute("name", general[3])
+        divGnxFr.append(checkbox)
+        // ajout label du general
         let label = document.createElement("label")
-        label.setAttribute("for", general[0])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/${general[2]}`)
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = general[0]
+        label.setAttribute("for", general[3])
+        label.textContent = general[0]
         let moral = document.createElement("meter")
         moral.setAttribute("value", general[1])
-        info.append(moral)
-        label.append(info)
-        item.append(label)       
-        // add to main page
-        listeFr.append(item)
+        label.append(moral)
+        divGnxFr.append(label)  
+        divGnxFr.append(document.createElement("br")) 
     }
-    //add submit button
-    // let submitGnxFr = document.createElement("input")
-    // submitGnxFr.setAttribute("type", "submit")
-    // submitGnxFr.setAttribute("value", "Chargez!!!")
-    // divGnxFr.append(submitGnxFr)
 
-    // populate russian army
+    // affichage des generaux austro-russes
     let divGnxRU = document.getElementById("gnxRU")
-    // Title
-    let titleRU = document.createElement("h3")
-    titleRU.textContent = "Austro-Russe"
-    divGnxRU.append(titleRU)
-    let listeRU = document.createElement("ul")
-    divGnxRU.append(listeRU)
-    // display general info
+    
     for (let i = 0; i < generauxRu.length; i++) {
         const general = generauxRu[i]
 
         // create row
-        let item = document.createElement("li")
         let checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", general[0])
-        checkbox.setAttribute("name", general[0])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
+        checkbox.setAttribute("id", general[3])
+        checkbox.setAttribute("name", general[3])
+        divGnxRU.append(checkbox)
+        // ajout label du general
         let label = document.createElement("label")
-        label.setAttribute("for", general[0])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/${general[2]}`)
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = general[0]
+        label.setAttribute("for", general[3])
+        label.textContent = general[0]
         let moral = document.createElement("meter")
         moral.setAttribute("value", general[1])
-        info.append(moral)
-        label.append(info)
-        item.append(label)       
-        // add to main page
-        listeRU.append(item)
+        label.append(moral)
+        divGnxRU.append(label) 
+        divGnxRU.append(document.createElement("br"))  
     }
-    //add submit button
-    // let submitGnxRu = document.createElement("input")
-    // submitGnxRu.setAttribute("type", "submit")
-    // submitGnxRu.setAttribute("value", "Chargez!!!")
-    // divGnxRU.append(submitGnxRu)
 }
 
 const displayTroupes = (armee) => {
     let troupes = getTroupes(armee)
 
-    // populate army
+    // affichage des troupes
     let divTroupes = document.getElementById("divTroupes")  
     
-    let listeTroupes = document.createElement("ul")
-    divTroupes.append(listeTroupes)
-
-    // display troupe info
     troupes.forEach(troupe => {
-        // create row
-        let item = document.createElement("li")
         let checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", troupe[0])
-        checkbox.setAttribute("name", troupe[0])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
+        checkbox.setAttribute("id", troupe[5])
+        checkbox.setAttribute("name", troupe[5])
+        divTroupes.append(checkbox)
+        // ajout label de la troupe
         let label = document.createElement("label")
-        label.setAttribute("for", troupe[0])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", "./assets/img/troupes.jpg")
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = troupe[0]
-        label.append(info)
-        
-        label.appendChild(document.createTextNode("Nomre d'unités "))
-        let nbUnites = document.createElement("input")
-        nbUnites.setAttribute("type", "texte")
-        nbUnites.setAttribute("name", troupe[0])
-        label.append(nbUnites)
-        item.append(label)          
-        // add to main page
-        listeTroupes.append(item)        
+        label.setAttribute("for", troupe[5])
+        label.textContent = troupe[0]
+        divTroupes.append(label)  
+        divTroupes.append(document.createElement("br")) 
+         
+        // saisie du nombre d'unités engagees
+        let nbUnites = document.createTextNode("Nombre d'unités engagées ")
+        divTroupes.appendChild(nbUnites)
+
+        let nbUnitesInput = document.createElement("input")
+        nbUnitesInput.setAttribute("type", "text")
+        nbUnitesInput.setAttribute("id", "nbUnit_" + troupe[5])
+        nbUnitesInput.setAttribute("name", "nbUnit_" + troupe[5])
+        divTroupes.append(nbUnitesInput)  
+        divTroupes.append(document.createElement("hr")) 
     })
-    if (divTroupes.tagName == "FORM") {
-        //add submit button
-        let submitTroupes = document.createElement("input")
-        submitTroupes.setAttribute("type", "submit")
-        submitTroupes.setAttribute("value", "Valider")
-        divTroupes.append(submitTroupes)
-    }
-}
-
-const showDistanceTir = (div) => {
-    const artillerie = div.getAttribute("id")
-    let inputDistance = document.getElementById(artillerie+"Input")
-    console.log(inputDistance.getAttribute("style"));
-    if (inputDistance.getAttribute("style") == "display: none;") {
-        inputDistance.setAttribute("style", "display: block;")        
-    } else {
-        inputDistance.setAttribute("style", "display: none;")    
-    }
-
-    inputDistance.focus()
 }
 
 const displayArtilleries = (armee) => {
     let artilleries = getArtilleries(armee)
 
-    // populate army
-    let divArtilleries = document.getElementById("divArtilleries")  
+    // affichage de l'artillerie
+    let divArtilleries = document.getElementById("divArtilleries") 
     
-    let listeArtilleries = document.createElement("ul")
-    divArtilleries.append(listeArtilleries)
-
-    // display troupe info
     artilleries.forEach(artillerie => {
-        // create row
-        let item = document.createElement("li")
+        console.log(artillerie);
         let checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", artillerie[0])
-        checkbox.setAttribute("name", artillerie[0])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
+        checkbox.setAttribute("id", artillerie[3])
+        checkbox.setAttribute("name", artillerie[3])
+        divArtilleries.append(checkbox)
+        // ajout label de l artillerie
         let label = document.createElement("label")
-        label.setAttribute("for", artillerie[0])
-        label.setAttribute("id", artillerie[0])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", "./assets/img/artilleries.jpg")
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = "Salve de " + artillerie[0]
-        label.append(info)
-        label.setAttribute("onclick", "showDistanceTir(this);")
-        
-        let labelDistance = document.createTextNode("Distance ")
-        // labelDistance.setAttribute("style", "display: none;")
-        label.appendChild(labelDistance)
-        let distance = document.createElement("input")
-        distance.setAttribute("type", "texte")
-        distance.setAttribute("id", `${artillerie[0]}Input`)
-        distance.setAttribute("name", artillerie[0])
-        distance.setAttribute("style", "display: none;")
-        label.append(distance)
-        
-        item.append(label)     
+        label.setAttribute("for", artillerie[3])
+        label.textContent = "Salve de " + artillerie[0]
+        divArtilleries.append(label)  
+        divArtilleries.append(document.createElement("br")) 
+         
+        // saisie de la distance de tir
+        let distance = document.createTextNode("Distance de tir ")
+        divArtilleries.appendChild(distance)
 
-        // add to main page
-        listeArtilleries.append(item)
+        let distanceInput = document.createElement("input")
+        distanceInput.setAttribute("type", "text")
+        distanceInput.setAttribute("id", "dist_" + artillerie[3])
+        distanceInput.setAttribute("name", "dist_" + artillerie[3])
+        divArtilleries.append(distanceInput)  
+        divArtilleries.append(document.createElement("hr")) 
+
+
+
+        // let labelDistance = document.createTextNode("Distance ")
+        // // labelDistance.setAttribute("style", "display: none;")
+        // label.appendChild(labelDistance)
+        // let distance = document.createElement("input")
+        // distance.setAttribute("type", "texte")
+        // distance.setAttribute("id", `${artillerie[0]}Input`)
+        // distance.setAttribute("name", artillerie[0])
+        // distance.setAttribute("style", "display: none;")
+        // label.append(distance)
+        
+        // item.append(label)     
+
+        // // add to main page
+        // listeArtilleries.append(item)
         
 
     })
@@ -343,132 +340,320 @@ const displayArtilleries = (armee) => {
     }
 }
 
-const displayRecap = (batteleData) => {
-    const { generaux, troupes, artilleries} = batteleData
-    console.log(generaux);
+const displayRecapFR = (batteleDataFR) => {
+    console.log(batteleDataFR);
+    const { generaux, troupes, artilleries} = batteleDataFR
+    const generauxFR = generaux
+    const troupesFR = troupes
+    const artilleriesFR = artilleries
 
-    let armee = "fr"
+    let chargeFrontale = []
+    let chargeLaterale = []
+    let chargeArriere = []
 
-    // populate attacker
-    // let divAttaque
-    // let title
-    // if (armee == "fr") {
-    //     divAttaque = document.getElementById("attaque")       
-    //     // Title
-    //     title = document.createElement("h3")
-    //     title.textContent = "Attaque françaises"
-    // } else {
-    //     divAttaque = document.getElementById("attaque")       
-    //     // Title
-    //     title = document.createElement("h3")
-    //     title.textContent = "Attaque austro-russes"
-    // }
-    // divAttaque.append(title)
+    // repartition des troupes en fonction de la direction de la charge (frontale, lateral ou arriere)
+    troupesFR.forEach(troupe => {
+        switch (troupe.charge) {
+            case "frontale":
+                chargeFrontale.push(troupe)
+                break
+            case "laterale":
+                chargeLaterale.push(troupe)
+                break
+            case "arriere":
+                chargeArriere.push(troupe)
+                break
+            default:
+                break;
+        }
+    });
 
-    let divAttaque = document.getElementById("attaque")
+    let divFrance = document.getElementById("france")
 
-    // display generaux info
+    // affiche les generaux engages
     let titleGnx = document.createElement("h4")
-    titleGnx.textContent = "Généraux"
-    divAttaque.append(titleGnx)
-    let listeGnx = document.createElement("ul")
-    divAttaque.append(listeGnx)
-    
-    generaux.forEach(general => {
-        // create row
-        console.log(general);        
-        let item = document.createElement("li")
-        let checkbox = document.createElement("input")
-        checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", general[1])
-        checkbox.setAttribute("name", general[1])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
-        let label = document.createElement("label")
-        label.setAttribute("for", general[1])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", `./assets/img/${general[3]}`)
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = general[1]
-        label.append(info)
-        item.append(label)       
-        // add to main page
-        listeGnx.append(item)        
-    })
-    divAttaque.append(document.createElement("hr"))
+    titleGnx.textContent = "Généraux français"
+    divFrance.append(titleGnx)
+    if (generauxFR.length > 0) {
+        let listeGnx = document.createElement("ul")
+        divFrance.append(listeGnx)
+        
+        generauxFR.forEach(general => {
+            let item = document.createElement("li")
+            item.textContent = general.nom
+            listeGnx.append(item)        
+        })
+    } else {
+        divFrance.append(document.createElement("p").textContent = "Pas de généraux français engagés dans l'attaque.")
+    }
+    divFrance.append(document.createElement("hr"))
 
-    // display troupes info
-    let titleTroupes = document.createElement("h4")
-    titleTroupes.textContent = "Troupes"
-    divAttaque.append(titleTroupes)
-    let listeTroupes = document.createElement("ul")
-    divAttaque.append(listeTroupes)
-    
-    troupes.forEach(troupe => {
-        // create row
-        console.log(troupe);        
-        let item = document.createElement("li")
-        let checkbox = document.createElement("input")
-        checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", troupe[1])
-        checkbox.setAttribute("name", troupe[1])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
-        let label = document.createElement("label")
-        label.setAttribute("for", troupe[1])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", "./assets/img/troupes.jpg")
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = troupe[1]
-        label.append(info)
-        item.append(label)       
-        // add to main page
-        listeTroupes.append(item)        
-    })
-    divAttaque.append(document.createElement("hr"))
-
-    // display artilleries info
+    // affiche les tirs d'artillerie
     let titleArtilleries = document.createElement("h4")
-    titleArtilleries.textContent = "Artilleries"
-    divAttaque.append(titleArtilleries)
-    let listeArtilleries = document.createElement("ul")
-    divAttaque.append(listeArtilleries)
+    titleArtilleries.textContent = "Tirs d'artilleries"
+    divFrance.append(titleArtilleries)
+    if (artilleriesFR.length > 0) {
+        let listeArtilleries = document.createElement("ul")
+        divFrance.append(listeArtilleries)
+        
+        artilleriesFR.forEach(artillerie => {
+            let item = document.createElement("li")
+            item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " cases."
+            listeArtilleries.append(item)        
+        })
+    } else {
+        divFrance.append(document.createElement("p").textContent = "Pas d'appui de l'artillerie française.")
+    }
+    divFrance.append(document.createElement("hr"))
+
+    // affiche la charge frontale
+    let titleChargeFrontale = document.createElement("h4")
+    titleChargeFrontale.textContent = "Charge Frontale"
+    divFrance.append(titleChargeFrontale) 
     
-    artilleries.forEach(artillerie => {
-        // create row
-        console.log(artillerie);        
-        let item = document.createElement("li")
-        let checkbox = document.createElement("input")
-        checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("id", artillerie[1])
-        checkbox.setAttribute("name", artillerie[1])
-        checkbox.setAttribute("style", "display:none;")
-        item.append(checkbox)
-        // create col for portait
-        let label = document.createElement("label")
-        label.setAttribute("for", artillerie[1])
-        let portrait = document.createElement("img")
-        portrait.setAttribute("width", "80px")
-        portrait.setAttribute("src", "./assets/img/artilleries.jpg")
-        label.append(portrait)
-        let info = document.createElement("p")
-        info.textContent = artillerie[1]
-        label.append(info)
-        item.append(label)       
-        // add to main page
-        listeArtilleries.append(item)        
-    })
-    // if (divTroupes.tagName == "FORM") {
-    //     //add submit button
-    //     let submitTroupes = document.createElement("input")
-    //     submitTroupes.setAttribute("type", "submit")
-    //     submitTroupes.setAttribute("value", "Chargez!!!")
-    //     divTroupes.append(submitTroupes)
-    // }
+    if (chargeFrontale.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeFrontale[0].avantage != "") {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeFrontale[0].avantage
+            divFrance.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divFrance.append(titleAvantage)
+        }
+    
+        let listeTroupesFrontale = document.createElement("ul")
+        divFrance.append(listeTroupesFrontale) 
+        
+        chargeFrontale.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesFrontale.append(item)        
+        })
+    } else {
+        divFrance.append(document.createElement("p").textContent = "Pas de charge frontale française.")
+    }
+    divFrance.append(document.createElement("hr"))
+
+    // affiche la charge laterale
+    let titleChargeLaterale = document.createElement("h4")
+    titleChargeLaterale.textContent = "Charge Latérale"
+    divFrance.append(titleChargeLaterale)
+    
+    if (chargeLaterale.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeLaterale[0].avantage != null) {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeLaterale[0].avantage
+            divFrance.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divFrance.append(titleAvantage)
+        }
+    
+        let listeTroupesLaterale = document.createElement("ul")
+        divFrance.append(listeTroupesLaterale)  
+        
+        chargeLaterale.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesLaterale.append(item)        
+        })
+    } else {
+        divFrance.append(document.createElement("p").textContent = "Pas de charge latérale française.")
+    }
+    divFrance.append(document.createElement("hr"))
+
+    // affiche la charge arriere
+    let titleChargeArriere = document.createElement("h4")
+    titleChargeArriere.textContent = "Charge Arrière"
+    divFrance.append(titleChargeArriere)
+    
+    if (chargeArriere.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeArriere[0].avantage != null) {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeArriere[0].avantage
+            divFrance.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divFrance.append(titleAvantage)
+        }
+    
+        let listeTroupesArriere = document.createElement("ul")
+        divFrance.append(listeTroupesArriere)  
+        
+        chargeArriere.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesArriere.append(item)        
+        })        
+    } else {
+        divFrance.append(document.createElement("p").textContent = "Pas de charge arrière française.")
+    }
+}
+
+const displayRecapRU = (batteleDataRU) => {
+    console.log(batteleDataRU);
+    const { generaux, troupes, artilleries} = batteleDataRU
+    const generauxRU = generaux
+    const troupesRU = troupes
+    const artilleriesRU = artilleries
+
+    let chargeFrontale = []
+    let chargeLaterale = []
+    let chargeArriere = []
+
+    // repartition des troupes en fonction de la direction de la charge (frontale, lateral ou arriere)
+    troupesRU.forEach(troupe => {
+        switch (troupe.charge) {
+            case "frontale":
+                chargeFrontale.push(troupe)
+                break
+            case "laterale":
+                chargeLaterale.push(troupe)
+                break
+            case "arriere":
+                chargeArriere.push(troupe)
+                break
+            default:
+                break;
+        }
+    });
+
+    let divRU = document.getElementById("russe")
+
+    // affiche les generaux engages
+    let titleGnx = document.createElement("h4")
+    titleGnx.textContent = "Généraux austro-russes"
+    divRU.append(titleGnx)
+    if (generauxRU.length > 0) {
+        let listeGnx = document.createElement("ul")
+        divRU.append(listeGnx)
+        
+        generauxRU.forEach(general => {
+            let item = document.createElement("li")
+            item.textContent = general.nom
+            listeGnx.append(item)        
+        })
+    }  else {
+        divRU.append(document.createElement("p").textContent = "Pas de généraux austro-russes engagés dans l'attaque.")
+    }
+    divRU.append(document.createElement("hr"))
+    
+        // affiche les tirs d'artillerie
+        let titleArtilleries = document.createElement("h4")
+        titleArtilleries.textContent = "Tirs d'artilleries"
+        divRU.append(titleArtilleries)
+        if (artilleriesRU.length > 0) {
+            let listeArtilleries = document.createElement("ul")
+            divRU.append(listeArtilleries)
+            
+            artilleriesRU.forEach(artillerie => {
+                let item = document.createElement("li")
+                item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " cases."
+                listeArtilleries.append(item)        
+            })
+        } else {
+            divRU.append(document.createElement("p").textContent = "Pas d'appui de l'artillerie austro-russe.")
+        }
+    divRU.append(document.createElement("hr"))        
+
+    // affiche la charge frontale
+    let titleChargeFrontale = document.createElement("h4")
+    titleChargeFrontale.textContent = "Charge Frontale"
+    divRU.append(titleChargeFrontale) 
+    
+    if (chargeFrontale.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeFrontale[0].avantage != "") {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeFrontale[0].avantage
+            divRU.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divRU.append(titleAvantage)
+        }
+    
+        let listeTroupesFrontale = document.createElement("ul")
+        divRU.append(listeTroupesFrontale) 
+        
+        chargeFrontale.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesFrontale.append(item)        
+        })
+    } else {
+        divRU.append(document.createElement("p").textContent = "Pas de charge frontale austro-russe.")
+    }
+    divRU.append(document.createElement("hr"))        
+
+    // affiche la charge laterale
+    let titleChargeLaterale = document.createElement("h4")
+    titleChargeLaterale.textContent = "Charge Latérale"
+    divRU.append(titleChargeLaterale)
+    
+    if (chargeLaterale.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeLaterale[0].avantage != null) {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeLaterale[0].avantage
+            divRU.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divRU.append(titleAvantage)
+        }
+    
+        let listeTroupesLaterale = document.createElement("ul")
+        divRU.append(listeTroupesLaterale)  
+        
+        chargeLaterale.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesLaterale.append(item)        
+        })
+    } else {
+        divRU.append(document.createElement("p").textContent = "Pas de charge latérale austro-russe.")
+    }
+    divRU.append(document.createElement("hr"))        
+
+    // affiche la charge arriere
+    let titleChargeArriere = document.createElement("h4")
+    titleChargeArriere.textContent = "Charge Arrière"
+    divRU.append(titleChargeArriere)
+    
+    if (chargeArriere.length > 0) {
+        // verification de la presence d'un avantage terrain
+        if (chargeArriere[0].avantage != null) {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Avantage terrain de " + chargeArriere[0].avantage
+            divRU.append(titleAvantage)
+        } else {
+            let titleAvantage = document.createElement("h5")
+            titleAvantage.textContent = "Pas d'avantage terrain"
+            divRU.append(titleAvantage)
+        }
+        
+        let listeTroupesArriere = document.createElement("ul")
+        divRU.append(listeTroupesArriere)  
+        
+        chargeArriere.forEach(troupe => {
+            console.log(troupe);       
+            let item = document.createElement("li")
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            listeTroupesArriere.append(item)        
+        })
+    } else {
+        divRU.append(document.createElement("p").textContent = "Pas de charge arrière austro-russe.")
+    }
 }

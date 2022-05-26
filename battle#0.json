@@ -2,31 +2,49 @@
   "battle#0": [
     {
       "armee": "fr",
-      "nom": "Napoleon",
+      "type": "generaux",
+      "nom": "BERNADOTE",
       "moral": 0.5,
-      "portrait": "Napoleon.webp",
-      "id": 1651260022255
+      "portrait": "Bernadotte.jpg",
+      "ident": "FRGN02",
+      "id": 1653577034932
+    },
+    {
+      "armee": "au-ru",
+      "type": "generaux",
+      "nom": "BAGRATION",
+      "moral": 0.5,
+      "portrait": "Bagration.jpg",
+      "ident": "ARGN04",
+      "id": 1653577034935
     },
     {
       "armee": "fr",
-      "nom": "SOULT",
-      "moral": 0.5,
-      "portrait": "Soult.jpg",
-      "id": 1651260022262
+      "type": "troupes",
+      "nom": "régiment(s) d'infanterie affaiblie",
+      "de": 1,
+      "du": 0,
+      "au": 0,
+      "tu": 6,
+      "ident": "FRTR01",
+      "nbUnit": 1,
+      "charge": "frontale",
+      "avantage": 1,
+      "id": 1653577199901
     },
     {
       "armee": "au-ru",
-      "nom": "KOUTOUZOF",
-      "moral": 0.5,
-      "portrait": "Koutouzof.jpg",
-      "id": 1651260022263
-    },
-    {
-      "armee": "au-ru",
-      "nom": "LIECHTEINSTEIN",
-      "moral": 0.5,
-      "portrait": "Liechtenstein.jpg",
-      "id": 1651260022265
+      "type": "troupes",
+      "nom": "landwerregiment(en) (milice)",
+      "de": 1,
+      "du": 0.5,
+      "au": 0.5,
+      "tu": 6,
+      "ident": "ARTR02",
+      "nbUnit": 1,
+      "charge": "frontale",
+      "avantage": null,
+      "id": 1653577219306
     }
   ]
 }

@@ -2,87 +2,101 @@
   "artilleries": [
     {
       "armee": "fr",
+      "ident": "FRAR01",
       "nom": "1ere Batterie légère",
       "db": 2.5,
-      "id": 1651093288125
+      "id": 1651317402103
     },
     {
       "armee": "fr",
+      "ident": "FRAR02",
       "nom": "2eme Batterie légère",
       "db": 2.5,
-      "id": 1651093288126
+      "id": 1651317402103
     },
     {
       "armee": "fr",
+      "ident": "FRAR03",
       "nom": "Batterie légère réduite",
       "db": 1.3,
-      "id": 1651093288126
+      "id": 1651317402103
     },
     {
       "armee": "fr",
+      "ident": "FRAR04",
       "nom": "1ere Batterie Lourde",
       "db": 5,
-      "id": 1651093288126
+      "id": 1651317402104
     },
     {
       "armee": "fr",
+      "ident": "FRAR05",
       "nom": "2eme Batterie Lourde",
       "db": 5,
-      "id": 1651093288126
+      "id": 1651317402104
     },
     {
       "armee": "fr",
+      "ident": "FRAR06",
       "nom": "Batterie Lourde réduite",
       "db": 2.5,
-      "id": 1651093288127
+      "id": 1651317402104
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR01",
       "nom": "leichartillerie A",
       "db": 2.5,
-      "id": 1651093288136
+      "id": 1651317402118
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR02",
       "nom": "leichartillerie B",
       "db": 2.5,
-      "id": 1651093288136
+      "id": 1651317402119
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR03",
       "nom": "1/2 leichartartillerie",
       "db": 1.3,
-      "id": 1651093288136
+      "id": 1651317402119
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR04",
       "nom": "Pouchka tiazholy A",
       "db": 4,
-      "id": 1651093288136
+      "id": 1651317402120
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR05",
       "nom": "Pouchka tiazholy B",
       "db": 3,
-      "id": 1651093288136
+      "id": 1651317402120
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR06",
       "nom": "1/2 Pouchka tiazholy",
       "db": 2,
-      "id": 1651093288137
+      "id": 1651317402120
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR07",
       "nom": "Pouchka Pavloskaia",
       "db": 6,
-      "id": 1651093288137
+      "id": 1651317402121
     },
     {
       "armee": "au-ru",
+      "ident": "ARAR08",
       "nom": "1/2 Pouchka Pavloskaia",
       "db": 3,
-      "id": 1651093288137
+      "id": 1651317402122
     }
   ]
 }
