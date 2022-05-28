@@ -7,16 +7,16 @@
       "moral": 0.5,
       "portrait": "Bernadotte.jpg",
       "ident": "FRGN02",
-      "id": 1653577034932
+      "id": 1653668326277
     },
     {
       "armee": "au-ru",
       "type": "generaux",
-      "nom": "BAGRATION",
+      "nom": "LIECHTEINSTEIN",
       "moral": 0.5,
-      "portrait": "Bagration.jpg",
-      "ident": "ARGN04",
-      "id": 1653577034935
+      "portrait": "Liechtenstein.jpg",
+      "ident": "ARGN05",
+      "id": 1653668326285
     },
     {
       "armee": "fr",
@@ -27,24 +27,24 @@
       "au": 0,
       "tu": 6,
       "ident": "FRTR01",
-      "nbUnit": 1,
+      "nbUnit": 2,
       "charge": "frontale",
-      "avantage": 1,
-      "id": 1653577199901
+      "avantage": null,
+      "id": 1653668358571
     },
     {
       "armee": "au-ru",
       "type": "troupes",
-      "nom": "landwerregiment(en) (milice)",
+      "nom": "schwächregiment (rég. affaibli)",
       "de": 1,
-      "du": 0.5,
-      "au": 0.5,
+      "du": 0,
+      "au": 0,
       "tu": 6,
-      "ident": "ARTR02",
+      "ident": "ARTR01",
       "nbUnit": 1,
       "charge": "frontale",
       "avantage": null,
-      "id": 1653577219306
+      "id": 1653668380044
     }
   ]
 }

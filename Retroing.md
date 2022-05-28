@@ -2,6 +2,50 @@
 
 Ce document consolide les éléments constituant le logiciel WAO à partir de l'analyse du code. Il a pour ambition de permettre une réécriture du logiciel dans un langage moderne supporté par les terminaux actuels.
 
+## Variables globales
+Variables définies dans le fichier `Modmain.bas`
+
+```basic
+Global jeu As Integer ' n° des bataille: 1= F = Austerlitz, 2=E = Eylau
+                      ' 3=W = Wagram, 4=L = Leipzig, 5=A = Waterloo
+Global a As Byte ' a : 1= AMI (Français) 0= Ennemi
+Global temp As Integer 'climat Eylau ou saxon
+Global Const VMU = 4, VMP = 5  'Valeur moyenne des unités,  valeur morale des pertes
+Global ATTEN1, ATTEN2 As Single ' atténuation des pertes
+
+Global Q(1, 20, 3, 30) As Single 'Nombre de chaque type d'unités par combat
+Global L(1, 20) As Single 'Avantage des Lieux par  combat :
+Global O(1, 20) As Integer 'Ordre pour le combat c
+Global B(1, 20) As Single 'Force du Bombardement par combat
+Global V(1, 20) As Single 'total des forces dans un combat
+Global CAR(1, 20) As Byte ' 1= mise en carré, 0 = non
+
+Global VL(12) As Single, QL(1, 20, 12) As Single 'valeur , nombre dans le lieux par combat
+Global de!(1, 30), du!(1, 30), au!(1, 30), VU!(1, 30) 'Dés, bonus et valeur de chaque unité
+Global db!(1, 11), QB!(1, 20, 11) 'Dés par type de batterie ,nombre de dés par combat
+Global tu!(1, 30), gu!(1, 30) ' Type des unités ,groupe d'unités
+Global UN$(1, 30), BN$(1, 11), GN$(1, 14), OO$(1, 9) ' Noms des unités, des batteries, Ordres
+Global CNa$, CNe$, CN$(20), LN$(12), TN$(16) 'Noms des Combats, des Lieux,  types de combats
+Global NN$, VVN$, GVN$, PVN$, VSON As Integer 'Noms Nation, victoires, gde victoire, son victoire
+
+Global MG!(1, 14), MZ!(1) 'moral des généraux, moral moyen par zone
+Global ZG(1, 14) As Byte ' Généraux commandant une zone
+Global Tour% ' N° de tour
+
+Global com As Integer, QC As Integer  'N° du combat en cours et nombre total
+
+Global FC!(1), PC!(1), LR!(1) 'Par combat: Feu, Perte, Limite rupture,tir des batteries
+Global SW!, SP!(1) 'Aprés combat: total  perte, victoire
+Global SWA!, SWE!, SPA!, SPE!, rr!  ' total des victoires, des pertes,resultats
+
+Global xperte$, Ref As Integer  'drapeau combat refait
+Global drap As Byte, drap2 As Byte, drap3 As Byte, drapt As Byte ' drapeau-marque
+Global PAS, dep(1, 6), durée, Tactuel, Tdepart As Integer 'Pas, Déplacement , durée
+```
+
+Affectation de variables `a = 1: ATTEN1 = 0.75: ATTEN2 = 0.75`.
+
+
 ## Gestion des troupes
 Les troupes sont propres à chaque bataille. Elles sont définies par un nom, un nombre de dé et des valeurs de bonus.
 
@@ -153,6 +197,11 @@ GN$(0, 1) = "FRANCOIS II"
 ```
 ## Calcul des attaques
 
+### Documentation
+En attaque latérale, une unité ajoute un bonus de 1/2 de sa valeur d'attaque et double cette valeur lors d'une attaque sur l'arrière.
+*si une infanterie est attaquée de flanc ou de dos, elle est mise en carré et cela annule ces bonus*
+
+### Analyse des fichiers
 Le fichier `Fresul.frm` permet de calculer le résultat d'un assaut avec le calcul des pertes prenant en compte des coefficients de combats.
 
 ```basic
@@ -163,6 +212,7 @@ KOC = k(O(1, com)) + k(O(0, com))
 'Calcul des pertes pc()
 PC(0) = FC(1) * KOC * ((100 - MZ(0)) / 100) * ATTEN1 'victoire normale , ATTEN = aténuation
 PC(1) = FC(0) * KOC * ((100 - MZ(1)) / 100) * ATTEN1
+
 If SW = 2 Then PC(0) = FC(1) * KOC * ATTEN2        'gde victoire
 If SW = -2 Then PC(1) = FC(0) * KOC * ATTEN2
 PC(0) = ((Int(PC(0) * 10)) / 10): If O(0, com) = 0 Then PC(0) = 0   ' tir =pas de perte

@@ -559,3 +559,66 @@ const getBattleData = (battle, armee) => {
     return {generaux, troupes, artilleries}
 }
 
+const startFight = () => {
+    // recupere le nom de la battaille en cours
+    const battle = localStorage.getItem("currentBattle")
+
+    // recupere du nom de la case de combat
+    const nomCaseCombat = localStorage.getItem("nomCase")
+
+    // recupere les troupes francaises engagees dans le combat
+    const armyFR = getBattleData(battle, "fr")
+    const generauxFR = armyFR.generaux
+    const troupesFR = armyFR.troupes
+    const artilleriesFR = armyFR.artilleries
+    // puissance de feu attaque frontale FR
+    let FeuFrontalFR = 0
+    troupesFR.forEach(troupeFR => {
+        if (troupeFR.charge == "frontale") {
+            for (let i = 0; i < troupeFR.nbUnit; i++) {
+                FeuFrontalFR = FeuFrontalFR + puissanceFeu(troupeFR.de, troupeFR.du, troupeFR.au, troupeFR.tu)
+            }
+        }
+    });
+    console.log("feu frontal FR: " + FeuFrontalFR);
+
+    // recupere les troupes austro-russes engagees dans le combat
+    const armyRU = getBattleData(battle, "au-ru")
+    const generauxRU = armyRU.generaux
+    const troupesRU = armyRU.troupes
+    const artilleriesRU = armyRU.artilleries
+    // puissance de feu attaque frontale RU
+    let FeuFrontalRU = 0
+    troupesRU.forEach(troupeRU => {
+        if (troupeRU.charge == "frontale") {
+            for (let i = 0; i < troupeRU.nbUnit; i++) {
+                FeuFrontalRU = FeuFrontalRU + puissanceFeu(troupeRU.de, troupeRU.du, troupeRU.au, troupeRU.tu)
+            }
+        }
+    });
+    console.log("feu frontal RU: " + FeuFrontalRU);
+
+    const resultat = fightCalculation(FeuFrontalFR, FeuFrontalRU)
+    if (resultat > 0) {
+        console.log("Victoire des Français");
+    } else {
+        console.log("Victoire des Russes");
+    }
+}
+
+const puissanceFeu = (de, du, au, tu) => {
+    let puissanceFeu = 0
+    // calcul des points des dés
+    for (let i = 0; i < de; i++) {
+        tirage = Math.round(Math.random() * 6)
+        puissanceFeu = puissanceFeu + tirage
+        console.log(tirage);
+    }
+    puissanceFeu = puissanceFeu + du + au
+    console.log("puissance " + puissanceFeu);
+    return puissanceFeu
+}
+
+const fightCalculation = (FeuFrontalFR, FeuFrontalRU) => {
+    return FeuFrontalFR - FeuFrontalRU
+}
