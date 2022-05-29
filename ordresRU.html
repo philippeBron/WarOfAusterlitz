@@ -31,11 +31,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Zone des combats</a>
-                    </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Ordres du Général <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">Début des hostilités <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
@@ -45,18 +42,31 @@
                 <p id="nomCaseCombat"></p>
                 <hr>
                 <form action="tirArtillerieRU.html" method="get">
-                    <h4 id="ordresTitle"></h4>
-                    <fieldset name="ordres" id="ordres">
-                        <input type="radio" name="ordres" value="tir"> Tir d'artillerie isolée (sans attaque directe)<br>
-                        <input type="radio" name="ordres" value="assaut"> Assaut (prendre la position coûte que coûte)<br>
-                        <input type="radio" name="ordres" value="attaque"> Attaque (prendre, si-possible, la position)<br>
-                        <input type="radio" name="ordres" value="diversion"> Diversion (faire semblant de prendre la position)<br>
-                        <input type="radio" name="ordres" value="tenir"> Tenir (garder la position coûte que coûte)<br>
-                        <input type="radio" name="ordres" value="defense"> Défense (se replier si necessaire)<br>
-                        <input type="radio" name="ordres" value="repli"> Repli (lacher la position)<br>
-                        <input type="radio" name="ordres" value="zut"> Qu'ils se débrouillent !!!!! (tout sauf tir et repli)<br>
-                    </fieldset>
-                    <input type="submit" value="Valider">
+                    <div class="row" id="config">
+                        <div class="col-sm-6">
+                            <h4 id="ordresTitle"></h4>
+                            <fieldset name="ordres" id="ordres">
+                                <input type="radio" name="ordres" value="tir"> Tir d'artillerie isolée (sans attaque directe)<br>
+                                <input type="radio" name="ordres" value="assaut"> Assaut (prendre la position coûte que coûte)<br>
+                                <input type="radio" name="ordres" value="attaque"> Attaque (prendre, si-possible, la position)<br>
+                                <input type="radio" name="ordres" value="diversion"> Diversion (faire semblant de prendre la position)<br>
+                                <input type="radio" name="ordres" value="tenir"> Tenir (garder la position coûte que coûte)<br>
+                                <input type="radio" name="ordres" value="defense"> Défense (se replier si necessaire)<br>
+                                <input type="radio" name="ordres" value="repli"> Repli (lacher la position)<br>
+                                <input type="radio" name="ordres" value="zut"> Qu'ils se débrouillent !!!!! (tout sauf tir et repli)<br>
+                            </fieldset>
+                            <input type="submit" value="Valider">
+                        </div>
+                        <div class="col-sm-6">
+                            <h3>Configuration du combat</h3>
+                            <fieldset name="config" id="config">
+                                <input type="checkbox" name="appuiArtillerieRU" id="appuiArtillerieRU"> Appui artillerie demandé<br>
+                                <input type="checkbox" name="attaqueFrontaleRU" id="attaqueFrontaleRU"> Charge frontale<br>
+                                <input type="checkbox" name="attaqueLateraleRU" id="attaqueLateraleRU"> Charge latérale<br>
+                                <input type="checkbox" name="attaqueArriereRU" id="attaqueArriereRU"> Charge arrière<br>
+                            </fieldset>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

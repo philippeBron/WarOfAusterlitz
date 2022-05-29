@@ -17,90 +17,7 @@ const loadArtilleries = () => {
     displayTroupes("au-ru")
 }
 
-// retourne la liste des generaux d une armee
-const getGeneraux = (armee) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let generaux = []
-    const where = {
-        "armee": armee
-    }
-
-    if (elecdb.valid('generaux', location)) {         
-        elecdb.getRows('generaux', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(general => {                    
-                    // remplis la table des generaux
-                    const { nom, moral, portrait, ident } = general
-                    generaux.push([nom, moral, portrait, ident])
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
-    return generaux
-}
-
-// retourne la liste des troupes d une armee
-const getTroupes = (armee) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let troupes = []
-    const where = {
-        "armee": armee
-    }
-
-    if (elecdb.valid('troupes', location)) {         
-        elecdb.getRows('troupes', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(troupe => {                        
-                    // remplis la table des troupes
-                    const { armee, nom, de, du, au, tu, ident } = troupe
-                    troupes.push([nom, de, du, au, tu, ident])
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
-    return troupes
-}
-
-// retourne la liste des artilleries
-const getArtilleries = (armee) => {
-    const elecdb = require('electron-db')
-    const path = require('path')
-    const location = path.join(__dirname, './')
-
-    let artilleries = []
-    const where = {
-        "armee": armee
-    }
-
-    if (elecdb.valid('artilleries', location)) {         
-        elecdb.getRows('artilleries', location, where, (succ, data) => {
-            if(succ) {
-                data.forEach(artillerie => {                    
-                    // remplis la table des artilleries
-                    const { armee, type, nom, db, ident } = artillerie
-                    artilleries.push([ nom, "artilleries", db, ident ])
-                })
-            } else {
-                console.log('An error has occured.')
-                console.log(`Message: ${data}`)
-            }
-        })
-    }
-    return artilleries
-}
-
+// retourne les infrormation d un general
 const getGeneral = (ident) => {
     const elecdb = require('electron-db')
     const path = require('path')
@@ -133,27 +50,24 @@ const getGeneral = (ident) => {
     return general
 }
 
-const getArtillerie = (ident) => {
+// retourne la liste des generaux d une armee
+const getGeneraux = (armee) => {
     const elecdb = require('electron-db')
     const path = require('path')
     const location = path.join(__dirname, './')
 
-    let artillerie = new Object()
+    let generaux = []
     const where = {
-        "ident": ident
+        "armee": armee
     }
 
-    if (elecdb.valid('artilleries', location)) {         
-        elecdb.getRows('artilleries', location, where, (succ, data) => {
+    if (elecdb.valid('generaux', location)) {         
+        elecdb.getRows('generaux', location, where, (succ, data) => {
             if(succ) {
-                data.forEach(element => {                        
-                    // remplis la table des troupes  
-                    const { armee, nom, db, ident } = element
-                    artillerie.armee = armee
-                    artillerie.type = "artilleries"
-                    artillerie.nom = nom
-                    artillerie.db = db
-                    artillerie.ident = ident
+                data.forEach(general => {                    
+                    // remplis la table des generaux
+                    const { nom, moral, portrait, ident } = general
+                    generaux.push([nom, moral, portrait, ident])
                 })
             } else {
                 console.log('An error has occured.')
@@ -161,10 +75,10 @@ const getArtillerie = (ident) => {
             }
         })
     }
-    return artillerie
-
+    return generaux
 }
 
+// retourne les informations d une troupe
 const getTroupe = (ident) => {
     const elecdb = require('electron-db')
     const path = require('path')
@@ -198,6 +112,95 @@ const getTroupe = (ident) => {
     }
     return troupe
 
+}
+
+// retourne la liste des troupes d une armee
+const getTroupes = (armee) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let troupes = []
+    const where = {
+        "armee": armee
+    }
+
+    if (elecdb.valid('troupes', location)) {         
+        elecdb.getRows('troupes', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(troupe => {                        
+                    // remplis la table des troupes
+                    const { armee, nom, de, du, au, tu, ident } = troupe
+                    troupes.push([nom, de, du, au, tu, ident])
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return troupes
+}
+
+// retourne les informations d une artillerie
+const getArtillerie = (ident) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let artillerie = new Object()
+    const where = {
+        "ident": ident
+    }
+
+    if (elecdb.valid('artilleries', location)) {         
+        elecdb.getRows('artilleries', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(element => {                        
+                    // remplis la table des troupes  
+                    const { armee, nom, db, ident } = element
+                    artillerie.armee = armee
+                    artillerie.type = "artilleries"
+                    artillerie.nom = nom
+                    artillerie.db = db
+                    artillerie.ident = ident
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return artillerie
+
+}
+
+// retourne la liste des artilleries
+const getArtilleries = (armee) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let artilleries = []
+    const where = {
+        "armee": armee
+    }
+
+    if (elecdb.valid('artilleries', location)) {         
+        elecdb.getRows('artilleries', location, where, (succ, data) => {
+            if(succ) {
+                data.forEach(artillerie => {                    
+                    // remplis la table des artilleries
+                    const { armee, type, nom, db, ident } = artillerie
+                    artilleries.push([ nom, "artilleries", db, ident ])
+                })
+            } else {
+                console.log('An error has occured.')
+                console.log(`Message: ${data}`)
+            }
+        })
+    }
+    return artilleries
 }
 
 const displayGnx = () => {
@@ -297,7 +300,7 @@ const displayArtilleries = (armee) => {
         // ajout label de l artillerie
         let label = document.createElement("label")
         label.setAttribute("for", artillerie[3])
-        label.textContent = "Salve de " + artillerie[0]
+        label.textContent = " Salve de " + artillerie[0]
         divArtilleries.append(label)  
         divArtilleries.append(document.createElement("br")) 
          
@@ -342,10 +345,11 @@ const displayArtilleries = (armee) => {
 
 const displayRecapFR = (batteleDataFR) => {
     console.log(batteleDataFR);
-    const { generaux, troupes, artilleries} = batteleDataFR
+    const { generaux, troupes, artilleries, ordresArmee} = batteleDataFR
     const generauxFR = generaux
     const troupesFR = troupes
     const artilleriesFR = artilleries
+    const ordresFR = ordresArmee
 
     let chargeFrontale = []
     let chargeLaterale = []
@@ -388,6 +392,13 @@ const displayRecapFR = (batteleDataFR) => {
     }
     divFrance.append(document.createElement("hr"))
 
+    // afiche les ordres francais
+    let titleOrdres = document.createElement("h4")
+    titleOrdres.textContent = `Ordres : ${ordresFR[0].ordres}`
+    divFrance.append(titleOrdres)
+
+    divFrance.append(document.createElement("hr"))
+
     // affiche les tirs d'artillerie
     let titleArtilleries = document.createElement("h4")
     titleArtilleries.textContent = "Tirs d'artilleries"
@@ -398,7 +409,7 @@ const displayRecapFR = (batteleDataFR) => {
         
         artilleriesFR.forEach(artillerie => {
             let item = document.createElement("li")
-            item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " cases."
+            item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " case(s)."
             listeArtilleries.append(item)        
         })
     } else {
@@ -429,7 +440,7 @@ const displayRecapFR = (batteleDataFR) => {
         chargeFrontale.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesFrontale.append(item)        
         })
     } else {
@@ -460,7 +471,7 @@ const displayRecapFR = (batteleDataFR) => {
         chargeLaterale.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesLaterale.append(item)        
         })
     } else {
@@ -491,7 +502,7 @@ const displayRecapFR = (batteleDataFR) => {
         chargeArriere.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesArriere.append(item)        
         })        
     } else {
@@ -501,10 +512,13 @@ const displayRecapFR = (batteleDataFR) => {
 
 const displayRecapRU = (batteleDataRU) => {
     console.log(batteleDataRU);
-    const { generaux, troupes, artilleries} = batteleDataRU
+    const { generaux, troupes, artilleries, ordresArmee} = batteleDataRU
     const generauxRU = generaux
     const troupesRU = troupes
     const artilleriesRU = artilleries
+    const ordresRU = ordresArmee
+
+    console.log(ordresRU);
 
     let chargeFrontale = []
     let chargeLaterale = []
@@ -546,23 +560,31 @@ const displayRecapRU = (batteleDataRU) => {
         divRU.append(document.createElement("p").textContent = "Pas de généraux austro-russes engagés dans l'attaque.")
     }
     divRU.append(document.createElement("hr"))
+
+    // afiche les ordres russes
+    let titleOrdres = document.createElement("h4")
+    titleOrdres.textContent = `Ordres : ${ordresRU[0].ordres}`
+    divRU.append(titleOrdres)
+
+    divRU.append(document.createElement("hr"))
     
-        // affiche les tirs d'artillerie
-        let titleArtilleries = document.createElement("h4")
-        titleArtilleries.textContent = "Tirs d'artilleries"
-        divRU.append(titleArtilleries)
-        if (artilleriesRU.length > 0) {
-            let listeArtilleries = document.createElement("ul")
-            divRU.append(listeArtilleries)
-            
-            artilleriesRU.forEach(artillerie => {
-                let item = document.createElement("li")
-                item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " cases."
-                listeArtilleries.append(item)        
-            })
-        } else {
-            divRU.append(document.createElement("p").textContent = "Pas d'appui de l'artillerie austro-russe.")
-        }
+    // affiche les tirs d'artillerie
+    let titleArtilleries = document.createElement("h4")
+    titleArtilleries.textContent = "Tirs d'artilleries"
+    divRU.append(titleArtilleries)
+    if (artilleriesRU.length > 0) {
+        let listeArtilleries = document.createElement("ul")
+        divRU.append(listeArtilleries)
+        
+        artilleriesRU.forEach(artillerie => {
+            let item = document.createElement("li")
+            item.textContent = "Salve de " + artillerie.nom + " à " + artillerie.distance + " case(s)."
+            listeArtilleries.append(item)        
+        })
+    } else {
+        divRU.append(document.createElement("p").textContent = "Pas d'appui de l'artillerie austro-russe.")
+    }
+
     divRU.append(document.createElement("hr"))        
 
     // affiche la charge frontale
@@ -572,7 +594,7 @@ const displayRecapRU = (batteleDataRU) => {
     
     if (chargeFrontale.length > 0) {
         // verification de la presence d'un avantage terrain
-        if (chargeFrontale[0].avantage != "") {
+        if (chargeFrontale[0].avantage != null) {
             let titleAvantage = document.createElement("h5")
             titleAvantage.textContent = "Avantage terrain de " + chargeFrontale[0].avantage
             divRU.append(titleAvantage)
@@ -588,7 +610,7 @@ const displayRecapRU = (batteleDataRU) => {
         chargeFrontale.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesFrontale.append(item)        
         })
     } else {
@@ -619,7 +641,7 @@ const displayRecapRU = (batteleDataRU) => {
         chargeLaterale.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesLaterale.append(item)        
         })
     } else {
@@ -650,7 +672,7 @@ const displayRecapRU = (batteleDataRU) => {
         chargeArriere.forEach(troupe => {
             console.log(troupe);       
             let item = document.createElement("li")
-            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unités."
+            item.textContent = troupe.nom + " : " + troupe.nbUnit + " unité(s)."
             listeTroupesArriere.append(item)        
         })
     } else {

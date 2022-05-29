@@ -74,6 +74,28 @@ const storeGeneral = (battle, general) => {
     }
 }
 
+const storeOrders = (battle, armee, ordres, nomCase) => {
+    const elecdb = require('electron-db')
+    const path = require('path')
+    const location = path.join(__dirname, './')
+
+    let obj = new Object()
+    obj.type = "ordres"
+    obj.armee = armee
+    obj.ordres = ordres
+    obj.nomCase = nomCase
+
+    if(elecdb.valid(battle, location)) {
+        elecdb.insertTableContent(battle, location, obj, (succ, msg) => {
+            console.log(`Success: ${succ}`)
+            console.log(`Message: ${msg}`)
+        })
+    } else {
+        console.log('An error has occured.')
+        console.log(`Message: ${data}`)
+    }
+}
+
 const storeAppuiArtillerie = (battle, appuiArtillerie) => {
     const elecdb = require('electron-db')
     const path = require('path')
@@ -143,10 +165,16 @@ const getAttaque = (troupes, input) => {
 
 const startBattle = () => {
     // recuperation de l index courant de la bataille
-    const indexBataille = localStorage.getItem("indexBataille")
+    const indexBataille = parseInt(localStorage.getItem("indexBataille"))
+
+    // nettoyage du localstorage
+    localStorage.clear()
+    
+    // increment de indexBataille
+    localStorage.setItem("indexBataille", indexBataille + 1)
 
     // creation et stockage du nom de la bataille en cours
-    const currentBattle = `battle#${indexBataille}`
+    const currentBattle = `battle#${indexBataille + 1}`
     localStorage.setItem("currentBattle", currentBattle)
 
     // creation de la base pour la nouvelle bataille
@@ -154,14 +182,26 @@ const startBattle = () => {
 
     // recupere les noms des generaux selectionnes pour la zone de combat (page precedente)
     const selectedGeneraux = getParams()
+    let generaux = []
     let titleText = "Quels sont les ordres de"
     for (let index = 0; index < selectedGeneraux.length; index++) {
         const general = getGeneral(selectedGeneraux[index][0])
-        if (general.armee == 'fr') {
-            titleText = titleText + " / " + general.nom
-        }
+        generaux.push(general)
         storeGeneral(currentBattle, general)
     }
+
+    let nbGnxFR = 0
+    generaux.forEach(general => {        
+        if (general.armee == 'fr') {
+            if (nbGnxFR > 0) {
+                titleText = titleText + " / " + general.nom
+            } else {
+                titleText = titleText + " " + general.nom
+            }
+            nbGnxFR++
+        }
+    });
+
     titleText = titleText + " ?"
     let title = document.getElementById("ordresTitle")
     title.textContent = titleText
@@ -230,8 +270,24 @@ const attFrontale = (armee) => {
         storeAppuiArtillerie(battle, artillerie)
     });
 
-    // affichage des troupes pour selections de la charge frontale
-    displayTroupes(armee)
+    // verification de la charge frontale
+    if (armee == 'fr') {
+        const attaqueFrontaleFR = localStorage.getItem("attaqueFrontaleFR")
+        if (attaqueFrontaleFR) {
+            // affichage des troupes pour selections de la charge frontale
+            displayTroupes(armee)         
+        } else {
+            window.location.replace("attaqueLateraleFR.html")
+        }     
+    } else {
+        const attaqueFrontaleRU = localStorage.getItem("attaqueFrontaleRU")
+        if (attaqueFrontaleRU) {
+            // affichage des troupes pour selections de la charge frontale
+            displayTroupes(armee)         
+        } else {
+            window.location.replace("attaqueLateraleRU.html")
+        }     
+    }
 }
 
 const attLaterale = (armee) => {
@@ -259,8 +315,25 @@ const attLaterale = (armee) => {
         storeCharge(battle, troupe)
     });
 
-    // affichage des troupes pour selections de la charge laterale
-    displayTroupes(armee)
+    // verification de la charge laterale
+    if (armee == 'fr') {
+        const attaqueLateraleFR = localStorage.getItem("attaqueLateraleFR")
+        if (attaqueLateraleFR) {
+            // affichage des troupes pour selections de la charge laterale
+            displayTroupes(armee)  
+        } else {
+            window.location.replace("attaqueArriereFR.html")
+        }     
+    } else {
+        const attaqueLateraleRU = localStorage.getItem("attaqueLateraleRU")
+        if (attaqueLateraleRU) {
+            // affichage des troupes pour selections de la charge laterale
+            displayTroupes(armee)  
+        } else {
+            window.location.replace("attaqueArriereRU.html")
+        }     
+    }
+
 }
 
 const attArriere = (armee) => {
@@ -292,29 +365,108 @@ const attArriere = (armee) => {
         storeCharge(battle, troupe)
     });
 
-    // affichage des troupes pour selections de la charge laterale
-    displayTroupes(armee)
+    // verification de la charge arriere
+    if (armee == 'fr') {
+        const attaqueArriereFR = localStorage.getItem("attaqueArriereFR")
+        if (attaqueArriereFR) {
+            // affichage des troupes pour selections de la charge arriere
+            displayTroupes(armee)  
+        } else {
+            window.location.replace("recapAttaqueFR.html")
+        }     
+    } else {
+        const attaqueArriereRU = localStorage.getItem("attaqueArriereRU")
+        if (attaqueArriereRU) {
+            // affichage des troupes pour selections de la charge arriere
+            displayTroupes(armee)  
+        } else {
+            window.location.replace("recapAttaque.html")
+        }     
+    }
 }
 
 const appuiArtillerie = (armee) => {
     console.log(getParams());
+    const battle = localStorage.getItem("currentBattle")
+
     // le nom de la case de combat est défini en meme temps que les ordres francais
     if (armee == 'fr') {
         const nomCase = getParams()[0][1]
         const ordreFR = getParams()[1][1]
 
-        // sauvegarde le nom de la case et l'ordre
+        // recuperarion de la configuration de la charge
+        for (let i = 2; i < getParams().length; i++) {
+            switch (getParams()[i][0]) {
+                case "appuiArtillerieFR":
+                    localStorage.setItem("appuiArtillerieFR", true)
+                    break;
+                case "attaqueFrontaleFR":
+                    localStorage.setItem("attaqueFrontaleFR", true)
+                    break;
+                case "attaqueLateraleFR":
+                    localStorage.setItem("attaqueLateraleFR", true)
+                    break;
+                case "attaqueArriereFR":
+                    localStorage.setItem("attaqueArriereFR", true)
+                    break;            
+                default:
+                    break;
+            }            
+        }
+        // sauvegarde le nom de la case et l'ordre dans local storage
         localStorage.setItem("nomCase", nomCase)
         localStorage.setItem("ordreFR", ordreFR)
+
+        // sauvegarde des ordres dans le fichier de la bataille en cours
+        storeOrders(battle, armee, ordreFR, nomCase)
     }
     else{
         const ordreRU = getParams()[0][1]
+        const nomCase = localStorage.getItem("nomCase")
 
         // sauvegarde le nom de la case et l'ordre
         localStorage.setItem("ordreRU", ordreRU)
+
+        for (let i = 1; i < getParams().length; i++) {
+            switch (getParams()[i][0]) {
+                case "appuiArtillerieRU":
+                    localStorage.setItem("appuiArtillerieRU", true)
+                    break;
+                case "attaqueFrontaleRU":
+                    localStorage.setItem("attaqueFrontaleRU", true)
+                    break;
+                case "attaqueLateraleRU":
+                    localStorage.setItem("attaqueLateraleRU", true)
+                    break;
+                case "attaqueArriereRU":
+                    localStorage.setItem("attaqueArriereRU", true)
+                    break;            
+                default:
+                    break;
+            }            
+        }
+
+        // sauvegarde des ordres dans le fichier de la bataille en cours
+        storeOrders(battle, armee, ordreRU, nomCase)
     }
 
-    displayArtilleries(armee)
+    // verification demande appui artillerie
+    if (armee == 'fr') {
+        const appuiArtillerie = localStorage.getItem("appuiArtillerieFR")
+        if (appuiArtillerie) {
+            displayArtilleries(armee)            
+        } else {
+            window.location.replace("attaqueFrontaleFR.html")
+        }     
+    } else {
+        const appuiArtillerie = localStorage.getItem("appuiArtillerieRU")
+        if (appuiArtillerie) {
+            displayArtilleries(armee)            
+        } else {
+            window.location.replace("attaqueFrontaleRU.html")
+        }     
+
+    }
 }
 
 const playTroupes = () => {
@@ -527,6 +679,7 @@ const getBattleData = (battle, armee) => {
     let generaux = []
     let troupes = []
     let artilleries = []
+    let ordresArmee = []
 
     const where = {
         "armee": armee
@@ -549,6 +702,10 @@ const getBattleData = (battle, armee) => {
                         const { armee, nom, db, ident, distance } = element
                         artilleries.push({armee, nom, db, ident, distance})
                     }
+                    if (type == "ordres") {
+                        const { armee, ordres, nomCase } = element
+                        ordresArmee.push({armee, ordres, nomCase})
+                    }
                 })
             } else {
                 console.log('An error has occured.')
@@ -556,53 +713,124 @@ const getBattleData = (battle, armee) => {
             }
         })
     }
-    return {generaux, troupes, artilleries}
+    return {generaux, troupes, artilleries, ordresArmee}
 }
 
 const startFight = () => {
-    // recupere le nom de la battaille en cours
-    const battle = localStorage.getItem("currentBattle")
+    // recupere le nom de indexBataille
+    const indexBataille = localStorage.getItem("indexBataille")
 
-    // recupere du nom de la case de combat
-    const nomCaseCombat = localStorage.getItem("nomCase")
+    // recupetation des donnees de chaque bataille
+    for (let i = 1; i <= indexBataille; i++) {
+        let battle = `battle#${i}`
 
-    // recupere les troupes francaises engagees dans le combat
-    const armyFR = getBattleData(battle, "fr")
-    const generauxFR = armyFR.generaux
-    const troupesFR = armyFR.troupes
-    const artilleriesFR = armyFR.artilleries
-    // puissance de feu attaque frontale FR
-    let FeuFrontalFR = 0
-    troupesFR.forEach(troupeFR => {
-        if (troupeFR.charge == "frontale") {
-            for (let i = 0; i < troupeFR.nbUnit; i++) {
-                FeuFrontalFR = FeuFrontalFR + puissanceFeu(troupeFR.de, troupeFR.du, troupeFR.au, troupeFR.tu)
+        // recupere les donnees fr
+        const armyFR = getBattleData(battle, "fr")
+
+        const generauxFR = armyFR.generaux
+        const troupesFR = armyFR.troupes
+        const artilleriesFR = armyFR.artilleries
+        const ordresFR = armyFR.ordresArmee[0]
+
+        console.log("nomCase: " + ordresFR.nomCase);
+
+        // puissance de feu artillerie FR
+        let FeuArtillerieFR = 0
+        artilleriesFR.forEach(artillerieFR => {
+            FeuArtillerieFR = FeuArtillerieFR + puissanceArtillerie(artillerieFR.db, artillerieFR.distance)
+        });
+        console.log("feu artillerie FR: " + FeuArtillerieFR);
+
+        // puissance de feu attaque frontale FR
+        let FeuFrontalFR = 0
+        troupesFR.forEach(troupeFR => {
+            if (troupeFR.charge == "frontale") {
+                for (let i = 0; i < troupeFR.nbUnit; i++) {
+                    FeuFrontalFR = FeuFrontalFR + puissanceFeu(troupeFR.de, troupeFR.du, troupeFR.au, troupeFR.tu)
+                }
             }
-        }
-    });
-    console.log("feu frontal FR: " + FeuFrontalFR);
-
-    // recupere les troupes austro-russes engagees dans le combat
-    const armyRU = getBattleData(battle, "au-ru")
-    const generauxRU = armyRU.generaux
-    const troupesRU = armyRU.troupes
-    const artilleriesRU = armyRU.artilleries
-    // puissance de feu attaque frontale RU
-    let FeuFrontalRU = 0
-    troupesRU.forEach(troupeRU => {
-        if (troupeRU.charge == "frontale") {
-            for (let i = 0; i < troupeRU.nbUnit; i++) {
-                FeuFrontalRU = FeuFrontalRU + puissanceFeu(troupeRU.de, troupeRU.du, troupeRU.au, troupeRU.tu)
+        });
+        console.log("feu frontal FR: " + FeuFrontalFR);
+        
+        // puissance de feu attaque lateral FR
+        let FeuLatralFR = 0
+        troupesFR.forEach(troupeFR => {
+            if (troupeFR.charge == "laterale") {
+                for (let i = 0; i < troupeFR.nbUnit; i++) {
+                    FeuLatralFR = FeuLatralFR + puissanceFeu(troupeFR.de, troupeFR.du, troupeFR.au, troupeFR.tu)
+                }
             }
-        }
-    });
-    console.log("feu frontal RU: " + FeuFrontalRU);
+        });
+        console.log("feu lateral FR: " + FeuLatralFR);
+        
+        // puissance de feu attaque arriere FR
+        let FeuArriereFR = 0
+        troupesFR.forEach(troupeFR => {
+            if (troupeFR.charge == "arriere") {
+                for (let i = 0; i < troupeFR.nbUnit; i++) {
+                    FeuArriereFR = FeuArriereFR + puissanceFeu(troupeFR.de, troupeFR.du, troupeFR.au, troupeFR.tu)
+                }
+            }
+        });
+        console.log("feu arriere FR: " + FeuArriereFR);
 
-    const resultat = fightCalculation(FeuFrontalFR, FeuFrontalRU)
-    if (resultat > 0) {
-        console.log("Victoire des Français");
-    } else {
-        console.log("Victoire des Russes");
+        let puissanceFeuFR = FeuFrontalFR + FeuLatralFR + FeuArriereFR + FeuArtillerieFR
+
+
+        // recupere les troupes austro-russes engagees dans le combat
+        const armyRU = getBattleData(battle, "au-ru")
+        const generauxRU = armyRU.generaux
+        const troupesRU = armyRU.troupes
+        const artilleriesRU = armyRU.artilleries
+
+        // puissance de feu artillerie RU
+        let FeuArtillerieRU = 0
+        artilleriesRU.forEach(artillerieRU => {
+            FeuArtillerieRU = FeuArtillerieRU + puissanceArtillerie(artillerieRU.db, artillerieRU.distance)
+        });
+        console.log("feu artillerie RU: " + FeuArtillerieRU);
+
+        // puissance de feu attaque frontale RU
+        let FeuFrontalRU = 0
+        troupesRU.forEach(troupeRU => {
+            if (troupeRU.charge == "frontale") {
+                for (let i = 0; i < troupeRU.nbUnit; i++) {
+                    FeuFrontalRU = FeuFrontalRU + puissanceFeu(troupeRU.de, troupeRU.du, troupeRU.au, troupeRU.tu)
+                }
+            }
+        });
+        console.log("feu frontal RU: " + FeuFrontalRU);
+
+        // puissance de feu attaque frontale RU
+        let FeuLateralRU = 0
+        troupesRU.forEach(troupeRU => {
+            if (troupeRU.charge == "laterale") {
+                for (let i = 0; i < troupeRU.nbUnit; i++) {
+                    FeuLateralRU = FeuLateralRU + puissanceFeu(troupeRU.de, troupeRU.du, troupeRU.au, troupeRU.tu)
+                }
+            }
+        });
+        console.log("feu lateral RU: " + FeuLateralRU);
+
+        // puissance de feu attaque arriere RU
+        let FeuArriereRU = 0
+        troupesRU.forEach(troupeRU => {
+            if (troupeRU.charge == "arriere") {
+                for (let i = 0; i < troupeRU.nbUnit; i++) {
+                    FeuArriereRU = FeuArriereRU + puissanceFeu(troupeRU.de, troupeRU.du, troupeRU.au, troupeRU.tu)
+                }
+            }
+        });
+        console.log("feu arriere RU: " + FeuArriereRU);
+
+        let puissanceFeuRU = FeuFrontalRU + FeuLateralRU + FeuArriereRU + FeuArtillerieRU
+    
+        const resultat = fightCalculation(puissanceFeuFR, puissanceFeuRU)
+        if (resultat > 0) {
+            console.log("Victoire des Français");
+        } else {
+            console.log("Victoire des Russes");
+        }
     }
 }
 
@@ -612,11 +840,16 @@ const puissanceFeu = (de, du, au, tu) => {
     for (let i = 0; i < de; i++) {
         tirage = Math.round(Math.random() * 6)
         puissanceFeu = puissanceFeu + tirage
-        console.log(tirage);
+        // console.log(tirage);
     }
     puissanceFeu = puissanceFeu + du + au
-    console.log("puissance " + puissanceFeu);
+    // console.log("puissance " + puissanceFeu);
     return puissanceFeu
+}
+
+const puissanceArtillerie = (db, distance) => {
+    let puissanceArtillerie = db / distance
+    return puissanceArtillerie
 }
 
 const fightCalculation = (FeuFrontalFR, FeuFrontalRU) => {

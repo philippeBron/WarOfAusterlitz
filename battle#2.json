@@ -1,0 +1,63 @@
+{
+  "battle#2": [
+    {
+      "id": 1653833769984
+    },
+    {
+      "type": "ordres",
+      "armee": "fr",
+      "ordres": "attaque",
+      "nomCase": "vivi2",
+      "id": 1653833781509
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "régiment(s) d'infanterie lègère",
+      "de": 1,
+      "du": 1,
+      "au": 1,
+      "tu": 6,
+      "ident": "FRTR02",
+      "nbUnit": 1,
+      "charge": "frontale",
+      "avantage": 1,
+      "id": 1653833791279
+    },
+    {
+      "armee": "fr",
+      "type": "troupes",
+      "nom": "Vieille Garde avec Bessière",
+      "de": 2,
+      "du": 7,
+      "au": 7,
+      "tu": 6.5,
+      "ident": "FRTR08",
+      "nbUnit": 1,
+      "charge": "frontale",
+      "avantage": 1,
+      "id": 1653833791280
+    },
+    {
+      "type": "ordres",
+      "armee": "au-ru",
+      "ordres": "tenir",
+      "nomCase": "vivi2",
+      "id": 1653833797107
+    },
+    {
+      "armee": "au-ru",
+      "type": "troupes",
+      "nom": "piérota Proviti (reg. de la garde)",
+      "de": 1,
+      "du": 2.5,
+      "au": 2.5,
+      "tu": 6,
+      "ident": "ARTR06",
+      "nbUnit": 1,
+      "charge": "frontale",
+      "avantage": null,
+      "id": 1653833803607
+    }
+  ]
+}
